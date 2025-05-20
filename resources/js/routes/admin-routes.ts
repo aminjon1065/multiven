@@ -121,7 +121,7 @@ export const eCommerceNavItems: NavItem[] = [
 export const settingsNavItems: NavItem[] = [
     {
         title: 'Footer',
-        href: '/admin/dashboard',
+        href: '/admin/footer-info',
         icon: FootprintsIcon,
         items: [
             { title: 'Footer инфо', href: '/admin/footer-info' },
@@ -132,7 +132,7 @@ export const settingsNavItems: NavItem[] = [
     },
     {
         title: 'Пользователи',
-        href: '/admin/dashboard',
+        href: '/admin/customer',
         icon: UsersIcon,
         items: [
             { title: 'Клиенты', href: '/admin/customer' },
