@@ -1,6 +1,6 @@
 import IconPicker from '@/components/icon-picker';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import AppLayout from '@/layouts/app-layout';
+import AppLayout from '@/layouts/app-admin-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';

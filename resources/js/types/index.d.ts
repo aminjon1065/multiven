@@ -20,6 +20,10 @@ export interface NavItem {
     href: string;
     icon?: LucideIcon | null;
     isActive?: boolean;
+    items?: {
+        title: string;
+        href: string;
+    }[];
 }
 
 export interface SharedData {
@@ -28,6 +32,7 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+
     [key: string]: unknown;
 }
 
@@ -36,8 +41,10 @@ export interface User {
     name: string;
     email: string;
     avatar?: string;
+    role?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+
     [key: string]: unknown; // This allows for additional properties...
 }

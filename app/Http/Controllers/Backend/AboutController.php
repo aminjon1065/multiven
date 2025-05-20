@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\About\StoreAboutRequest;
 use App\Http\Requests\About\UpdateAboutRequest;
 use App\Models\About;
