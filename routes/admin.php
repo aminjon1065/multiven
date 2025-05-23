@@ -9,6 +9,5 @@ Route::get('dashboard', function () {
 })->name('dashboard');
 
 Route::resource('category', CategoryController::class)->names('category');
-
-
+Route::patch('category-status/{category}', [CategoryController::class, 'changeStatus'])->name('category.changeStatus');
 require __DIR__ . '/settings.php';

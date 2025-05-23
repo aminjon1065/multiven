@@ -4,33 +4,51 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryRequest;
+use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Str;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(Request $request): \Inertia\Response
     {
-        $category = Category::paginate(5);
+        $search = $request->get('search');
+
+        $category = Category::query()
+            ->when($search, fn($query) => $query->where('name', 'like', "%{$search}%")
+                ->orWhere('slug', 'like', "%{$search}%")
+            )
+            ->paginate(15)
+            ->withQueryString();
+
         return Inertia::render('backend/category/index', [
             'category' => $category,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
+    }
+
+
+    public function changeStatus(Request $request, Category $category): \Illuminate\Http\RedirectResponse
+    {
+        $category->status = $request->boolean('status');
+        $category->save();
+
+        return redirect()->back();
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(CategoryRequest $request)
+    public function create(): \Inertia\Response
     {
-        $category = Category::create($request->validated());
-        if ($category) {
-            return back()->with(['success' => 'Успешно создано']);
-        }
-        return back()->withErrors(['msg' => 'Ошибка при создании']);
+        return Inertia::render('backend/category/create');
     }
 
     /**
@@ -38,7 +56,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create($request->validated());
+        if ($category) {
+            return back()->with(['success' => 'Успешно создано']);
+        }
+        return back()->withErrors(['msg' => 'Ошибка при создании']);
     }
 
     /**
@@ -60,9 +82,16 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
+
+        $category->update($validated);
+        if ($category) {
+            return back()->with(['success' => 'Успешно обновлено']);
+        }
+        return back()->withErrors(['msg' => 'Ошибка при обновлении']);
     }
 
     /**

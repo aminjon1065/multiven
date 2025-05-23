@@ -1,65 +1,88 @@
+import { UpdateCategory } from '@/components/category/update-category';
+import { Pagination } from '@/components/pagination';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Category } from '@/types/category';
-import formatterDay from '@/utils/dateFormatter';
+import { PaginatedResponse } from '@/types/paginateResponse';
+import { router } from '@inertiajs/react';
+import { Trash2Icon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-const CategoryDatatable = ({ categories }: { categories: Category[] }) => {
-    return (
-        <div className="overflow-x-auto rounded-md border">
-            <Table>
-                <TableCaption>Lorem ipsum dolor sit amet.</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>Название</TableHead>
-                        <TableHead>Иконка</TableHead>
-                        <TableHead>Статус</TableHead>
-                        <TableHead>Создано</TableHead>
-                        <TableHead>Действия</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {categories.length ? (
-                        categories.map((category) => (
-                            <TableRow key={category.id}>
-                                <TableCell>{category.id}</TableCell>
-                                <TableCell>{category.name}</TableCell>
-                                <TableCell>
-                                    <i className={`fa-solid ${category.icon}`}></i>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center space-x-2">
-                                        <Switch
-                                            className={'data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-blue-200'}
-                                            color={'blue'}
-                                            id="status"
-                                            checked={category.status}
-                                        />
-                                        <Label htmlFor="status">Status</Label>
-                                    </div>
-                                </TableCell>
-                                <TableCell>{formatterDay(category.created_at)}</TableCell>
-                                <TableCell>
-                                    <Button className="hover:underline">Редактировать</Button>
-                                    <Button variant={'destructive'} className="hover:underline">
-                                        Удалить
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={6} className="text-muted-foreground text-center">
-                                Категории не найдены
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </div>
-    );
+type Props = {
+    category: PaginatedResponse<Category>;
 };
 
-export default CategoryDatatable;
+export default function CategoryDatatable({ category }: Props) {
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+    const [open, setOpen] = useState(false);
+    const changeStatus = (id: number, newStatus: boolean) => {
+        router.patch(
+            route('admin.category.changeStatus', id),
+            { status: newStatus },
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success('Успешно обновлено.');
+                },
+                onError: () => {
+                    toast.error('Ошибка обновление.');
+                },
+            },
+        );
+    };
+
+    return (
+        <div className="mt-8">
+            <table className="min-w-full divide-y divide-gray-300">
+                <thead>
+                    <tr>
+                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Название</th>
+                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Slug</th>
+                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Иконка</th>
+                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                    {category.data.map((item) => (
+                        <tr key={item.id}>
+                            <td className="py-4 text-sm text-gray-900">{item.name}</td>
+                            <td className="py-4 text-sm text-gray-500">{item.slug}</td>
+                            <td className="py-4 text-sm text-gray-500">
+                                <i className={`fa-solid ${item.icon}`}></i>
+                            </td>
+                            <td className="py-4 text-sm text-gray-500">
+                                <Switch
+                                    className={'data-[state=checked]:bg-green-400'}
+                                    checked={item.status}
+                                    onCheckedChange={(val) => changeStatus(item.id, val)}
+                                />
+                            </td>
+                            <td className="space-x-2 py-4 text-right text-sm">
+                                <Button
+                                    variant={'link'}
+                                    onClick={() => {
+                                        setSelectedCategory(item);
+                                        setOpen(true);
+                                    }}
+                                >
+                                    Редактировать
+                                </Button>
+                                <Button variant={'ghost'} className={'hover:text-red-500'}>
+                                    <Trash2Icon />
+                                    Удалить
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <UpdateCategory open={open} onOpenChange={setOpen} item={selectedCategory} />
+            {/* Пагинация */}
+            <div className="flex justify-end">
+                <Pagination pagination={category} />
+            </div>
+        </div>
+    );
+}

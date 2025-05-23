@@ -1,14 +1,8 @@
+import { Category } from '@/types/category';
+
 export type PropsWithDataPaginate = {
     current_page: number;
-    data: {
-        id: number;
-        name: string;
-        slug: string;
-        icon: string;
-        status: boolean;
-        created_at: Date;
-        updated_at: Date;
-    };
+    data: Category[];
     first_page_url: string;
     from: number;
     last_page: number;

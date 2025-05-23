@@ -23,15 +23,9 @@ class CategoryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('categories', 'slug')->ignore($this->route('category')),
-            ],
-            'icon' => ['required', 'string', 'max:255'],
-            'status' => ['required', 'boolean'],
+            'name' => ['string', 'max:255'],
+            'icon' => ['string', 'max:255'],
+            'status' => ['boolean'],
         ];
     }
 }

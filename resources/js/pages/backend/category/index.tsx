@@ -1,26 +1,62 @@
 import CategoryDatatable from '@/components/category/category-datatable';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
-import { PropsWithDataPaginate } from '@/types/propsWithDataPaginate';
-import { Head } from '@inertiajs/react';
+import { Category } from '@/types/category';
+import { PaginatedResponse } from '@/types/paginateResponse';
+import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Дашборд',
         href: '/admin/dashboard',
     },
     {
-        title: 'User',
-        href: '/user',
+        title: 'Категории',
+        href: '/admin/category',
     },
 ];
-const Index = ({ category }: { category: PropsWithDataPaginate }) => {
-    // const { current_page, first_page_url, last_page, last_page_url, next_page_url, path, per_page, prev_page_url, to, total } = category;
+const Index = ({ category, filters }: { category: PaginatedResponse<Category>; filters: { search: string } }) => {
+    const [search, setSearch] = useState(filters.search ?? '');
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        router.get(route('admin.category.index'), { search }, { preserveScroll: true, preserveState: true });
+    };
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <CategoryDatatable categories={category.data} />
+                <div className="px-4 sm:px-6 lg:px-8">
+                    <div className="sm:flex sm:items-center md:justify-between">
+                        <form onSubmit={handleSearch} className="relative mt-2 flex w-full max-w-sm items-center sm:flex-auto">
+                            <Input
+                                type={'text'}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                name={'search'}
+                                placeholder={'Поиск...'}
+                                id={'search'}
+                            />
+                            <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                                <button
+                                    type="submit"
+                                    className="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400"
+                                >
+                                    <kbd>Enter</kbd>
+                                </button>
+                            </div>
+                        </form>
+                        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                            <Link href={route('admin.category.create')}>
+                                <Button variant={'outline'}>Добавить категорию</Button>
+                            </Link>
+                        </div>
+                    </div>
+                    <CategoryDatatable category={category} />
+                </div>
             </div>
         </AppAdminLayout>
     );
