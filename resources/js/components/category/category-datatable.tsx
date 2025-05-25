@@ -1,7 +1,8 @@
 import { UpdateCategory } from '@/components/category/update-category';
-import { Pagination } from '@/components/pagination';
+import { PaginationBar } from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Category } from '@/types/category';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { router } from '@inertiajs/react';
@@ -34,32 +35,39 @@ export default function CategoryDatatable({ category }: Props) {
 
     return (
         <div className="mt-8">
-            <table className="min-w-full divide-y divide-gray-300">
-                <thead>
-                    <tr>
-                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Название</th>
-                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Slug</th>
-                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Иконка</th>
-                        <th className="py-3 text-left text-sm font-semibold text-gray-900">Статус</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
+            <Table>
+                <TableCaption>
+                    <div className="flex justify-end">
+                        <PaginationBar pagination={category} />
+                    </div>
+                </TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Название</TableHead>
+                        <TableHead>Slug</TableHead>
+                        <TableHead>Иконка</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead className="text-right">Действие</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
                     {category.data.map((item) => (
-                        <tr key={item.id}>
-                            <td className="py-4 text-sm text-gray-900">{item.name}</td>
-                            <td className="py-4 text-sm text-gray-500">{item.slug}</td>
-                            <td className="py-4 text-sm text-gray-500">
+                        <TableRow key={item.id}>
+                            <TableCell className="font-medium">{item.name}</TableCell>
+                            <TableCell>{item.slug}</TableCell>
+                            <TableCell>
+                                {' '}
                                 <i className={`fa-solid ${item.icon}`}></i>
-                            </td>
-                            <td className="py-4 text-sm text-gray-500">
+                            </TableCell>
+                            <TableCell>
+                                {' '}
                                 <Switch
                                     className={'data-[state=checked]:bg-green-400'}
                                     checked={item.status}
                                     onCheckedChange={(val) => changeStatus(item.id, val)}
                                 />
-                            </td>
-                            <td className="space-x-2 py-4 text-right text-sm">
+                            </TableCell>
+                            <TableCell className="text-right">
                                 <Button
                                     className={'hover:text-sky-500'}
                                     variant={'ghost'}
@@ -74,16 +82,13 @@ export default function CategoryDatatable({ category }: Props) {
                                     <Trash2Icon />
                                     Удалить
                                 </Button>
-                            </td>
-                        </tr>
+                            </TableCell>
+                        </TableRow>
                     ))}
-                </tbody>
-            </table>
+                </TableBody>
+            </Table>
             <UpdateCategory open={open} onOpenChange={setOpen} item={selectedCategory} />
             {/* Пагинация */}
-            <div className="flex justify-end">
-                <Pagination pagination={category} />
-            </div>
         </div>
     );
 }

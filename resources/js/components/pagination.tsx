@@ -1,35 +1,68 @@
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/components/ui/pagination';
 import { PaginatedResponse } from '@/types/paginateResponse';
-import { Link } from '@inertiajs/react';
 
-type PaginationProps = {
+type Props = {
     pagination: PaginatedResponse<any>;
 };
 
-export function Pagination({ pagination }: PaginationProps) {
+export function PaginationBar({ pagination }: Props) {
+    const pages = pagination.links;
+
     return (
-        <div className="mt-6 flex flex-wrap gap-2">
-            {pagination.links.map((link, i) => {
-                let label = link.label;
-                if (label.includes('&laquo;') || label.toLowerCase().includes('previous')) {
-                    label = 'Назад';
-                } else if (label.includes('&raquo;') || label.toLowerCase().includes('next')) {
-                    label = 'Вперёд';
-                }
-                return (
-                    <Link
-                        key={i}
-                        href={link.url ?? ''}
-                        dangerouslySetInnerHTML={{ __html: label }}
-                        className={`rounded border px-3 py-1 text-sm ${
-                            link.active
-                                ? 'bg-blue-600 text-white'
-                                : link.url
-                                  ? 'bg-white text-gray-700 hover:bg-gray-100'
-                                  : 'cursor-not-allowed bg-gray-200 text-gray-400'
-                        }`}
-                    />
-                );
-            })}
-        </div>
+        <Pagination>
+            <PaginationContent>
+                {pages.map((link, index) => {
+                    const isPrevious = link.label.includes('&laquo;') || link.label.toLowerCase().includes('previous');
+                    const isNext = link.label.includes('&raquo;') || link.label.toLowerCase().includes('next');
+                    const isEllipsis = link.label === '...';
+
+                    if (isEllipsis) {
+                        return (
+                            <PaginationItem key={index}>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                        );
+                    }
+
+                    if (isPrevious) {
+                        return (
+                            <PaginationItem key={index}>
+                                <PaginationPrevious
+                                    href={link.url ?? '#'}
+                                    aria-disabled={!link.url}
+                                    className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                />
+                            </PaginationItem>
+                        );
+                    }
+
+                    if (isNext) {
+                        return (
+                            <PaginationItem key={index}>
+                                <PaginationNext
+                                    href={link.url ?? '#'}
+                                    aria-disabled={!link.url}
+                                    className={!link.url ? 'pointer-events-none opacity-50' : ''}
+                                />
+                            </PaginationItem>
+                        );
+                    }
+
+                    return (
+                        <PaginationItem key={index}>
+                            <PaginationLink href={link.url ?? '#'} isActive={link.active} dangerouslySetInnerHTML={{ __html: link.label }} />
+                        </PaginationItem>
+                    );
+                })}
+            </PaginationContent>
+        </Pagination>
     );
 }
