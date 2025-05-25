@@ -61,7 +61,8 @@ export default function CategoryDatatable({ category }: Props) {
                             </td>
                             <td className="space-x-2 py-4 text-right text-sm">
                                 <Button
-                                    variant={'link'}
+                                    className={'hover:text-sky-500'}
+                                    variant={'ghost'}
                                     onClick={() => {
                                         setSelectedCategory(item);
                                         setOpen(true);
