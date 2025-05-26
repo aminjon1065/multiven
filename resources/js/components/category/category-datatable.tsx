@@ -1,3 +1,4 @@
+import { CategoryDeleteDialog } from '@/components/category/delete-category-dialog';
 import { UpdateCategory } from '@/components/category/update-category';
 import { PaginationBar } from '@/components/pagination';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Category } from '@/types/category';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { router } from '@inertiajs/react';
-import { Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -78,10 +78,7 @@ export default function CategoryDatatable({ category }: Props) {
                                 >
                                     Редактировать
                                 </Button>
-                                <Button variant={'ghost'} className={'hover:text-red-500'}>
-                                    <Trash2Icon />
-                                    Удалить
-                                </Button>
+                                <CategoryDeleteDialog category={item} />
                             </TableCell>
                         </TableRow>
                     ))}
