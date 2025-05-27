@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
                 ->orWhere('slug', 'like', "%{$search}%")
             )
             ->orderBy('created_at', 'desc')
-            ->paginate(1)
+            ->paginate(15)
             ->withQueryString();
         return Inertia::render('backend/sub-category/index', [
             'subCategory' => $subCategory,
