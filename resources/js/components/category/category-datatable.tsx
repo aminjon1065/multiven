@@ -43,6 +43,7 @@ export default function CategoryDatatable({ category }: Props) {
                 </TableCaption>
                 <TableHeader>
                     <TableRow>
+                        <TableHead className="w-[50px]">ID</TableHead>
                         <TableHead className="w-[100px]">Название</TableHead>
                         <TableHead>Slug</TableHead>
                         <TableHead>Иконка</TableHead>
@@ -53,6 +54,7 @@ export default function CategoryDatatable({ category }: Props) {
                 <TableBody>
                     {category.data.map((item) => (
                         <TableRow key={item.id}>
+                            <TableCell className="font-medium">{item.id}</TableCell>
                             <TableCell className="font-medium">{item.name}</TableCell>
                             <TableCell>{item.slug}</TableCell>
                             <TableCell>

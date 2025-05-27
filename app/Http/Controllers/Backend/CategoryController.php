@@ -23,6 +23,7 @@ class CategoryController extends Controller
             ->when($search, fn($query) => $query->where('name', 'like', "%{$search}%")
                 ->orWhere('slug', 'like', "%{$search}%")
             )
+            ->orderByDesc('created_at')
             ->paginate(15)
             ->withQueryString();
 
@@ -46,17 +47,19 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Inertia\Response
+    public function create(): \Illuminate\Http\RedirectResponse
     {
-        return Inertia::render('backend/category/create');
+        return redirect()->back();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $category = Category::create($request->validated());
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
+        $category = Category::create($validated);
         if ($category) {
             return back()->with(['success' => 'Успешно создано']);
         }

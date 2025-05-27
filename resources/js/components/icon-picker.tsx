@@ -21,7 +21,7 @@ export default function IconPicker({ value, onChange }: Props) {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline">
-                    <i className={cn('fa-solid mr-2', value)} />
+                    <i className={cn('fa-solid mr-1', value)} />
                     {value || 'Выбрать иконку'}
                 </Button>
             </DialogTrigger>
@@ -48,7 +48,6 @@ export default function IconPicker({ value, onChange }: Props) {
                             </button>
                         ))}
                     </div>
-
                     <div className="border-t pt-4">
                         <label className="text-sm font-medium">Или введите свою:</label>
                         <Input value={customValue} onChange={(e) => setCustomValue(e.target.value)} placeholder="fa-bolt, fa-plane и т.д." />

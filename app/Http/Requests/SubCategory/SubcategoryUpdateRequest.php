@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\SubCategory;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class SubcategoryUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['string', 'max:255', 'unique:categories,slug'],
-            'icon' => ['required', 'string', 'max:255'],
+            'slug' => ['string', 'max:255', 'unique:sub_categories,slug'],
             'status' => ['required', 'boolean'],
         ];
     }

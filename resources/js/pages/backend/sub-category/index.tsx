@@ -1,11 +1,11 @@
-import CategoryDatatable from '@/components/category/category-datatable';
-import CreateCategoryForm from '@/components/category/create-category-form';
+import CreateSubCategoryForm from '@/components/sub-category/create-sub-category-form';
+import SubCategoryDatatable from '@/components/sub-category/sub-category-datatable';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
-import { Category } from '@/types/category';
 import { PaginatedResponse } from '@/types/paginateResponse';
+import { SubCategory } from '@/types/sub-category';
 import { Head, router } from '@inertiajs/react';
 import React, { useState } from 'react';
 
@@ -15,20 +15,29 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/dashboard',
     },
     {
-        title: 'Категории',
-        href: '/admin/category',
+        title: 'Подкатегории',
+        href: '/admin/sub-category',
     },
 ];
-const Index = ({ category, filters }: { category: PaginatedResponse<Category>; filters: { search: string } }) => {
+const Index = ({
+    subCategory,
+    filters,
+    categories,
+}: {
+    subCategory: PaginatedResponse<SubCategory>;
+    filters: { search: string };
+    categories: { id: number; name: string }[];
+}) => {
     const [search, setSearch] = useState(filters.search ?? '');
     const [open, setOpen] = useState(false);
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get(route('admin.category.index'), { search }, { preserveScroll: true, preserveState: true });
+        router.get(route('admin.sub-category.index'), { search }, { preserveScroll: true, preserveState: true });
     };
+    console.log(subCategory);
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title="Подкатегории" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="sm:flex sm:items-center md:justify-between">
@@ -57,12 +66,12 @@ const Index = ({ category, filters }: { category: PaginatedResponse<Category>; f
                                 }}
                                 variant={'outline'}
                             >
-                                Добавить категорию
+                                Добавить подкатегория
                             </Button>
-                            <CreateCategoryForm open={open} onOpenChange={setOpen} />
+                            <CreateSubCategoryForm open={open} onOpenChange={setOpen} categories={categories} />
                         </div>
                     </div>
-                    <CategoryDatatable category={category} />
+                    <SubCategoryDatatable subCategory={subCategory} />
                 </div>
             </div>
         </AppAdminLayout>
