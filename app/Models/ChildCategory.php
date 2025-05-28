@@ -4,19 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SubCategory extends Model
+class ChildCategory extends Model
 {
     protected $fillable = [
         'category_id',
+        'sub_category_id',
         'name',
         'slug',
-        'status',
+        'status'
     ];
 
     protected $casts = [
-        'status' => 'boolean',
+        'status' => 'boolean'
     ];
 
     public function category(): BelongsTo
@@ -24,8 +24,8 @@ class SubCategory extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function childCategories(): HasMany
+    public function subCategory(): BelongsTo
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->belongsTo(SubCategory::class);
     }
 }

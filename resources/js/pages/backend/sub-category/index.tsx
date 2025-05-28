@@ -71,7 +71,7 @@ const Index = ({
                             <CreateSubCategoryForm open={open} onOpenChange={setOpen} categories={categories} />
                         </div>
                     </div>
-                    <SubCategoryDatatable subCategory={subCategory} />
+                    <SubCategoryDatatable subCategory={subCategory} categories={categories} />
                 </div>
             </div>
         </AppAdminLayout>

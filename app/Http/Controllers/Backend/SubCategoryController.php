@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubCategory\SubCategoryRequest;
+use App\Http\Requests\SubCategory\SubcategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -59,6 +60,13 @@ class SubCategoryController extends Controller
 
     }
 
+    public function changeStatus(Request $request, SubCategory $subCategory): \Illuminate\Http\RedirectResponse
+    {
+        $subCategory->status = $request->boolean('status');
+        $subCategory->save();
+        return redirect()->back();
+    }
+
     /**
      * Display the specified resource.
      */
@@ -78,16 +86,20 @@ class SubCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SubCategory $subCategory)
+    public function update(SubcategoryUpdateRequest $request, SubCategory $subCategory): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
+        $subCategory->update($validated);
+        return back()->with('success', 'Sub Category updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SubCategory $subCategory)
+    public function destroy(SubCategory $subCategory): \Illuminate\Http\RedirectResponse
     {
-        //
+        $subCategory->delete();
+        return back()->with('success', 'Успешно удалено!');
     }
 }
