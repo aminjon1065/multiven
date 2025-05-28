@@ -5,17 +5,37 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChildCategory\StoreChildCategoryRequest;
 use App\Http\Requests\ChildCategory\UpdateChildCategoryRequest;
+use App\Models\Category;
 use App\Models\ChildCategory;
+use App\Models\SubCategory;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class ChildCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(Request $request): \Inertia\Response
     {
-        return Inertia::render('backend/child-category/index');
+        $categories = Category::get(['id', 'name']);
+        $subCategory = SubCategory::get(['id', 'name']);
+        $search = $request->get('search');
+        $childCategory = ChildCategory::query()
+            ->with(['category', 'subCategory'])
+            ->when($search, fn($query) => $query->where('name', 'like', "%{$search}%"))
+            ->orWhere('slug', 'like', "%{$search}%")
+            ->orderByDesc('id')
+            ->paginate(15)
+            ->withQueryString();
+        return Inertia::render('backend/child-category/index', [
+            'categories' => $categories,
+            'subCategories' => $subCategory,
+            'filters' => [
+                'search' => $search,
+            ],
+            'childCategories' => $childCategory
+        ]);
     }
 
     /**
