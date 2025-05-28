@@ -9,11 +9,11 @@ import {
 } from '@/components/ui/pagination';
 import { PaginatedResponse } from '@/types/paginateResponse';
 
-type Props = {
-    pagination: PaginatedResponse<any>;
+type Props<T> = {
+    pagination: PaginatedResponse<T>;
 };
 
-export function PaginationBar({ pagination }: Props) {
+export function PaginationBar<T>({ pagination }: Props<T>) {
     const pages = pagination.links;
 
     return (
