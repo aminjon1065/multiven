@@ -19,7 +19,7 @@ export function SelectCategory({
     return (
         <Select value={selectedId} onValueChange={onChange}>
             <SelectTrigger className="w-full">
-                <SelectValue placeholder="Выберите категорию" />
+                <SelectValue placeholder="Выберите из списка" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>

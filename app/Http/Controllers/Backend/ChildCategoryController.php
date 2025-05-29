@@ -50,9 +50,15 @@ class ChildCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreChildCategoryRequest $request)
+    public function store(StoreChildCategoryRequest $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
+        $childCategory = ChildCategory::create($validated);
+        if ($childCategory) {
+            return redirect()->back('201')->with(['success' => 'Успешно создано!']);
+        }
+        return redirect()->back();
     }
 
     public function changeStatus(Request $request, ChildCategory $childCategory): \Illuminate\Http\RedirectResponse
