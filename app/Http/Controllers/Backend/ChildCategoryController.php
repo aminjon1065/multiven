@@ -10,6 +10,7 @@ use App\Models\ChildCategory;
 use App\Models\SubCategory;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Str;
 
 class ChildCategoryController extends Controller
 {
@@ -41,9 +42,9 @@ class ChildCategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): \Illuminate\Http\RedirectResponse
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -54,9 +55,9 @@ class ChildCategoryController extends Controller
         //
     }
 
-    public function changeStatus(\Request $request, ChildCategory $childCategory): \Illuminate\Http\RedirectResponse
+    public function changeStatus(Request $request, ChildCategory $childCategory): \Illuminate\Http\RedirectResponse
     {
-        $childCategory->status = $request->status;
+        $childCategory->status = $request->boolean('status');
         $childCategory->save();
         return redirect()->back();
     }
@@ -64,9 +65,9 @@ class ChildCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ChildCategory $childCategory)
+    public function show(ChildCategory $childCategory): \Illuminate\Http\RedirectResponse
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -80,16 +81,20 @@ class ChildCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateChildCategoryRequest $request, ChildCategory $childCategory)
+    public function update(UpdateChildCategoryRequest $request, ChildCategory $childCategory): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']);
+        $childCategory->update($validated);
+        return redirect()->back()->with('success', 'Успешно обновлено!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ChildCategory $childCategory)
+    public function destroy(ChildCategory $childCategory): \Illuminate\Http\RedirectResponse
     {
-        //
+        $childCategory->delete();
+        return redirect()->back()->with('success', 'Удалено!');
     }
 }

@@ -1,3 +1,4 @@
+import ChildCategoryDatatable from '@/components/child-category/child-category-datatable';
 import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
 import { ChildCategory } from '@/types/child-category';
@@ -19,11 +20,11 @@ type Props = {
     categories: {
         id: number;
         name: string;
-    };
+    }[];
     subCategories: {
         id: number;
         name: string;
-    };
+    }[];
     childCategories: PaginatedResponse<ChildCategory>;
 };
 const Index = ({ categories, subCategories, childCategories }: Props) => {
@@ -31,7 +32,9 @@ const Index = ({ categories, subCategories, childCategories }: Props) => {
         <AppAdminLayout breadcrumbs={breadcrumbs}>
             <Head title={'Дочерняя категория'} />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="px-4 sm:px-6 lg:px-8">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, quasi.</div>
+                <div className="px-4 sm:px-6 lg:px-8">
+                    <ChildCategoryDatatable childCategories={childCategories} subCategory={subCategories} categories={categories} />
+                </div>
             </div>
         </AppAdminLayout>
     );

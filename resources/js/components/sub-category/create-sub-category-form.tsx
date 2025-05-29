@@ -1,4 +1,4 @@
-import { SelectCategory } from '@/components/sub-category/select-category';
+import { SelectCategory } from '@/components/select-category';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useForm } from '@inertiajs/react';

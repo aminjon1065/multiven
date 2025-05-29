@@ -2,30 +2,34 @@ import { SelectCategory } from '@/components/select-category';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { SubCategory } from '@/types/sub-category';
+import { ChildCategory } from '@/types/child-category';
 import { useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
-type SubCreateCategory = {
+type ChildCategoryUpdated = {
     category_id: string;
+    sub_category_id: string;
     name: string;
     status: boolean;
 };
 
-export function UpdatedSubCategory({
+export function UpdateChildCategory({
     open,
     onOpenChange,
     item,
     categories,
+    subCategories,
 }: {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    item: SubCategory | null;
+    item: ChildCategory | null;
     categories: { id: number; name: string }[];
+    subCategories: { id: number; name: string }[];
 }) {
-    const { data, setData, patch, reset, processing } = useForm<SubCreateCategory>({
+    const { data, setData, patch, reset, processing } = useForm<ChildCategoryUpdated>({
         category_id: '',
+        sub_category_id: '',
         name: '',
         status: true,
     });
@@ -35,6 +39,7 @@ export function UpdatedSubCategory({
             setData({
                 name: item.name,
                 category_id: String(item.category_id),
+                sub_category_id: String(item.sub_category_id),
                 status: item.status,
             });
         } else {
@@ -44,7 +49,7 @@ export function UpdatedSubCategory({
 
     const handleSubmit = () => {
         if (!item) return;
-        patch(route('admin.sub-category.update', item.id), {
+        patch(route('admin.child-category.update', item.id), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success('Подкатегория обновлена');
@@ -58,12 +63,17 @@ export function UpdatedSubCategory({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Редактировать подкатегорию</DialogTitle>
-                    <DialogDescription>Измените название и категорию подкатегории.</DialogDescription>
+                    <DialogTitle>Редактировать дочернюю категорию</DialogTitle>
+                    <DialogDescription>Измените название, категорию и подкатегорию.</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-3">
                     <Input value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
                     <SelectCategory categories={categories} selectedId={data.category_id} onChange={(val) => setData('category_id', val)} />
+                    <SelectCategory
+                        categories={subCategories}
+                        selectedId={data.sub_category_id}
+                        onChange={(val) => setData('sub_category_id', val)}
+                    />
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
