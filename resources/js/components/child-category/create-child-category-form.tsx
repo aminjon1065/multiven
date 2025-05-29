@@ -1,11 +1,11 @@
 import { SelectCategory } from '@/components/select-category';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import { toast } from 'sonner';
 import { Input } from '../ui/input';
-import { Label } from '@/components/ui/label';
 
 type childCategory = {
     category_id?: string;
@@ -22,18 +22,21 @@ const CreateChildCategory = ({
     open: boolean;
     onOpenChange: (open: boolean) => void;
     categories: { id: number; name: string }[];
-    subCategories: { id: number; name: string }[];
+    subCategories: { id: number; name: string; category_id: number }[];
 }) => {
-    const { data, setData, post, processing } = useForm<Required<childCategory>>({
+    const { data, setData, post, processing, reset } = useForm<Required<childCategory>>({
         category_id: '',
         sub_category_id: '',
         name: '',
         status: true,
     });
+
     const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('admin.child-category.store'), {
+            preserveScroll: true,
             onSuccess: () => {
+                reset()
                 toast.success('Успешно создано!');
                 onOpenChange(false);
             },
@@ -43,6 +46,7 @@ const CreateChildCategory = ({
             },
         });
     };
+    const filteredSubCategories = subCategories.filter((sub) => sub.category_id === Number(data.category_id));
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
@@ -52,34 +56,28 @@ const CreateChildCategory = ({
                 </DialogHeader>
                 <div className="space-y-3">
                     <div>
-                        <Label htmlFor={"name"}>
-                            Название
-                        </Label>
-                        <Input id={"name"} value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
+                        <Label htmlFor={'name'}>Название</Label>
+                        <Input required id={'name'} value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
                     </div>
                     <div>
-                        <Label>
-                            Категория
-                        </Label>
+                        <Label>Категория</Label>
                         <SelectCategory categories={categories} selectedId={data.category_id} onChange={(val) => setData('category_id', val)} />
                     </div>
                     <div>
-                        <Label>
-                            Подкатегория
-                        </Label>
+                        <Label>Подкатегория</Label>
                         <SelectCategory
-                            categories={subCategories}
+                            disabled={!data.category_id}
+                            categories={filteredSubCategories}
                             selectedId={data.sub_category_id}
                             onChange={(val) => setData('sub_category_id', val)}
                         />
                     </div>
-
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button variant="secondary">Отмена</Button>
                     </DialogClose>
-                    <Button disabled={processing} onClick={onSubmit}>
+                    <Button disabled={processing || !data.category_id} onClick={onSubmit}>
                         Сохранить
                     </Button>
                 </DialogFooter>

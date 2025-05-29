@@ -8,6 +8,7 @@ import { PaginatedResponse } from '@/types/paginateResponse';
 import { SubCategory } from '@/types/sub-category';
 import { Head, router } from '@inertiajs/react';
 import React, { useState } from 'react';
+import { PlusIcon } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -66,6 +67,7 @@ const Index = ({
                                 }}
                                 variant={'outline'}
                             >
+                                <PlusIcon />
                                 Добавить подкатегория
                             </Button>
                             <CreateSubCategoryForm open={open} onOpenChange={setOpen} categories={categories} />

@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('child_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id');
-            $table->foreignId('sub_category_id');
+            $table->foreignId('sub_category_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->boolean('status');

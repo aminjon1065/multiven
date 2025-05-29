@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 type Props = {
     childCategories: PaginatedResponse<ChildCategory>;
-    subCategory: { id: number; name: string }[];
+    subCategory: { id: number; name: string; category_id: number }[];
     categories: { id: number; name: string }[];
 };
 

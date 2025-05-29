@@ -1,14 +1,13 @@
-import CategoryDatatable from '@/components/category/category-datatable';
-import CreateCategoryForm from '@/components/category/create-category-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
-import { Category } from '@/types/category';
+import { Brand } from '@/types/brand';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { Head, router } from '@inertiajs/react';
-import React, { useState } from 'react';
 import { PlusIcon } from 'lucide-react';
+import React, { useState } from 'react';
+import BrandDatatable from '@/components/brand/brand-datatable';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,20 +15,26 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/dashboard',
     },
     {
-        title: 'Категории',
-        href: '/admin/category',
+        title: 'Бренд',
+        href: '/admin/brand',
     },
 ];
-const Index = ({ category, filters }: { category: PaginatedResponse<Category>; filters: { search: string } }) => {
+
+type Props = {
+    brands: PaginatedResponse<Brand>;
+    filters: { search: string };
+};
+const Index = ({ brands, filters }: Props) => {
+    console.log(brands);
     const [search, setSearch] = useState(filters.search ?? '');
     const [open, setOpen] = useState(false);
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get(route('admin.category.index'), { search }, { preserveScroll: true, preserveState: true });
+        router.get(route('admin.brand.index'), { search }, { preserveScroll: true, preserveState: true });
     };
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title={'Бренд'} />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="sm:flex sm:items-center md:justify-between">
@@ -59,12 +64,11 @@ const Index = ({ category, filters }: { category: PaginatedResponse<Category>; f
                                 variant={'outline'}
                             >
                                 <PlusIcon />
-                                Добавить категорию
+                                Добавить бренд
                             </Button>
-                            <CreateCategoryForm open={open} onOpenChange={setOpen} />
                         </div>
                     </div>
-                    <CategoryDatatable category={category} />
+                    <BrandDatatable />
                 </div>
             </div>
         </AppAdminLayout>

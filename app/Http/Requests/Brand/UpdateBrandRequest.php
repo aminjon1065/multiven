@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\ChildCategory;
+namespace App\Http\Requests\Brand;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreChildCategoryRequest extends FormRequest
+class UpdateBrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,10 @@ class StoreChildCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'exists:sub_categories,id|nullable',
-            'name' => 'required|string|max:255',
-            'slug' => 'string|max:255',
-            'status' => 'required|boolean',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
+            'name' => 'string|required',
+            'is_featured' => 'boolean',
+            'status' => 'boolean',
         ];
     }
 }

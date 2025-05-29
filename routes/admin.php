@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
@@ -19,7 +20,8 @@ Route::patch('sub-category-status/{subCategory}', [SubCategoryController::class,
 //ChildCategory
 Route::resource('child-category', ChildCategoryController::class)->names('child-category');
 Route::patch('childe-category-status/{childCategory}', [ChildCategoryController::class, 'changeStatus'])->name('child-category.changeStatus');
-
+//Brand
+Route::resource('brand', BrandController::class)->names('brand');
 
 require __DIR__ . '/settings.php';
 

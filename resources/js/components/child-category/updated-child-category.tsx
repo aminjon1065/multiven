@@ -25,7 +25,7 @@ export function UpdateChildCategory({
     onOpenChange: (open: boolean) => void;
     item: ChildCategory | null;
     categories: { id: number; name: string }[];
-    subCategories: { id: number; name: string }[];
+    subCategories: { id: number; name: string; category_id: number }[];
 }) {
     const { data, setData, patch, reset, processing } = useForm<ChildCategoryUpdated>({
         category_id: '',
@@ -58,6 +58,7 @@ export function UpdateChildCategory({
             onError: () => toast.error('Ошибка при обновлении'),
         });
     };
+    const filteredSubCategories = subCategories.filter((sub) => sub.category_id === Number(data.category_id));
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -70,7 +71,8 @@ export function UpdateChildCategory({
                     <Input value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
                     <SelectCategory categories={categories} selectedId={data.category_id} onChange={(val) => setData('category_id', val)} />
                     <SelectCategory
-                        categories={subCategories}
+                        disabled={!data.category_id}
+                        categories={filteredSubCategories}
                         selectedId={data.sub_category_id}
                         onChange={(val) => setData('sub_category_id', val)}
                     />
@@ -79,7 +81,7 @@ export function UpdateChildCategory({
                     <DialogClose asChild>
                         <Button variant="secondary">Отмена</Button>
                     </DialogClose>
-                    <Button onClick={handleSubmit} disabled={processing}>
+                    <Button onClick={handleSubmit} disabled={processing || !data.category_id}>
                         Сохранить
                     </Button>
                 </DialogFooter>

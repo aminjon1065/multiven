@@ -11,7 +11,7 @@ type CreateCategory = {
     status: boolean;
 };
 const CreateCategoryForm = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
-    const { data, setData, post, processing } = useForm<Required<CreateCategory>>({
+    const { data, setData, post, processing, reset} = useForm<Required<CreateCategory>>({
         name: '',
         icon: 'fa-user',
         status: true,
@@ -20,6 +20,7 @@ const CreateCategoryForm = ({ open, onOpenChange }: { open: boolean; onOpenChang
         e.preventDefault();
         post(route('admin.category.store'), {
             onSuccess: () => {
+                reset()
                 toast.success('Успешно создано!');
                 onOpenChange(false);
             },

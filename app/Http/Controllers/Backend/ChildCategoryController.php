@@ -20,12 +20,16 @@ class ChildCategoryController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         $categories = Category::get(['id', 'name']);
-        $subCategory = SubCategory::get(['id', 'name']);
+        $subCategory = SubCategory::get(['id', 'name', 'category_id']);
         $search = $request->get('search');
         $childCategory = ChildCategory::query()
             ->with(['category', 'subCategory'])
-            ->when($search, fn($query) => $query->where('name', 'like', "%{$search}%"))
-            ->orWhere('slug', 'like', "%{$search}%")
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('slug', 'like', "%{$search}%");
+                });
+            })
             ->orderByDesc('id')
             ->paginate(15)
             ->withQueryString();
@@ -56,9 +60,9 @@ class ChildCategoryController extends Controller
         $validated['slug'] = Str::slug($validated['name']);
         $childCategory = ChildCategory::create($validated);
         if ($childCategory) {
-            return redirect()->back('201')->with(['success' => 'Успешно создано!']);
+            return back()->with(['success' => 'Успешно создано!']);
         }
-        return redirect()->back();
+        return back()->withErrors(['msg' => 'Ошибка при создании']);
     }
 
     public function changeStatus(Request $request, ChildCategory $childCategory): \Illuminate\Http\RedirectResponse

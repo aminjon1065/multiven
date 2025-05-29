@@ -7,6 +7,7 @@ import type { BreadcrumbItem } from '@/types';
 import { ChildCategory } from '@/types/child-category';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { Head, router } from '@inertiajs/react';
+import { PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -28,6 +29,7 @@ type Props = {
     subCategories: {
         id: number;
         name: string;
+        category_id: number;
     }[];
     filters: { search: string };
     childCategories: PaginatedResponse<ChildCategory>;
@@ -39,6 +41,7 @@ const Index = ({ categories, subCategories, filters, childCategories }: Props) =
         e.preventDefault();
         router.get(route('admin.child-category.index'), { search }, { preserveScroll: true, preserveState: true });
     };
+
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
             <Head title={'Дочерняя категория'} />
@@ -70,6 +73,7 @@ const Index = ({ categories, subCategories, filters, childCategories }: Props) =
                                 }}
                                 variant={'outline'}
                             >
+                                <PlusIcon />
                                 Добавить подкатегория
                             </Button>
                             <CreateChildCategoryForm open={open} onOpenChange={setOpen} categories={categories} subCategories={subCategories} />

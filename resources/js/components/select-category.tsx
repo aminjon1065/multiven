@@ -11,14 +11,16 @@ export function SelectCategory({
                                    categories,
                                    selectedId,
                                    onChange,
+                                   disabled = false,
                                }: {
     categories: { id: number; name: string }[]
     selectedId: string
     onChange: (value: string) => void
+    disabled?: boolean
 }) {
     return (
-        <Select value={selectedId} onValueChange={onChange}>
-            <SelectTrigger className="w-full">
+        <Select value={selectedId} onValueChange={onChange} disabled={disabled}>
+            <SelectTrigger className="w-full" disabled={disabled}>
                 <SelectValue placeholder="Выберите из списка" />
             </SelectTrigger>
             <SelectContent>
