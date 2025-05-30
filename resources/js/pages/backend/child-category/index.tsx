@@ -76,7 +76,9 @@ const Index = ({ categories, subCategories, filters, childCategories }: Props) =
                                 <PlusIcon />
                                 Добавить подкатегория
                             </Button>
-                            <CreateChildCategoryForm open={open} onOpenChange={setOpen} categories={categories} subCategories={subCategories} />
+                            {open && (
+                                <CreateChildCategoryForm open={open} onOpenChange={setOpen} categories={categories} subCategories={subCategories} />
+                            )}
                         </div>
                     </div>
                     <ChildCategoryDatatable childCategories={childCategories} subCategory={subCategories} categories={categories} />

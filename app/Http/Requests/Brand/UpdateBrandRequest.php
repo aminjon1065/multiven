@@ -23,8 +23,8 @@ class UpdateBrandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
-            'name' => 'string|required',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048|nullable',
+            'name' => 'string',
             'is_featured' => 'boolean',
             'status' => 'boolean',
         ];

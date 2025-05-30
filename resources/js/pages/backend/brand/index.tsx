@@ -1,13 +1,14 @@
+import BrandDatatable from '@/components/brand/brand-datatable';
+import CreateBrandForm from '@/components/brand/create-brand-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
 import { Brand } from '@/types/brand';
 import { PaginatedResponse } from '@/types/paginateResponse';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
-import BrandDatatable from '@/components/brand/brand-datatable';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -25,13 +26,15 @@ type Props = {
     filters: { search: string };
 };
 const Index = ({ brands, filters }: Props) => {
-    console.log(brands);
     const [search, setSearch] = useState(filters.search ?? '');
     const [open, setOpen] = useState(false);
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         router.get(route('admin.brand.index'), { search }, { preserveScroll: true, preserveState: true });
     };
+
+    const propsPage = usePage().props
+    console.log(propsPage);
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
             <Head title={'Бренд'} />
@@ -66,9 +69,10 @@ const Index = ({ brands, filters }: Props) => {
                                 <PlusIcon />
                                 Добавить бренд
                             </Button>
+                            {open && <CreateBrandForm open={open} onOpenChange={setOpen} />}
                         </div>
                     </div>
-                    <BrandDatatable />
+                    <BrandDatatable brands={brands} />
                 </div>
             </div>
         </AppAdminLayout>

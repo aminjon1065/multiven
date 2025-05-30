@@ -7,8 +7,8 @@ import type { BreadcrumbItem } from '@/types';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { SubCategory } from '@/types/sub-category';
 import { Head, router } from '@inertiajs/react';
-import React, { useState } from 'react';
 import { PlusIcon } from 'lucide-react';
+import React, { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,7 +35,6 @@ const Index = ({
         e.preventDefault();
         router.get(route('admin.sub-category.index'), { search }, { preserveScroll: true, preserveState: true });
     };
-    console.log(subCategory);
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
             <Head title="Подкатегории" />
@@ -70,7 +69,7 @@ const Index = ({
                                 <PlusIcon />
                                 Добавить подкатегория
                             </Button>
-                            <CreateSubCategoryForm open={open} onOpenChange={setOpen} categories={categories} />
+                            {open && <CreateSubCategoryForm open={open} onOpenChange={setOpen} categories={categories} />}
                         </div>
                     </div>
                     <SubCategoryDatatable subCategory={subCategory} categories={categories} />

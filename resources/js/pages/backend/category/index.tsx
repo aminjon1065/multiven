@@ -61,7 +61,7 @@ const Index = ({ category, filters }: { category: PaginatedResponse<Category>; f
                                 <PlusIcon />
                                 Добавить категорию
                             </Button>
-                            <CreateCategoryForm open={open} onOpenChange={setOpen} />
+                            {open && <CreateCategoryForm open={open} onOpenChange={setOpen} />}
                         </div>
                     </div>
                     <CategoryDatatable category={category} />
