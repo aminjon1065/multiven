@@ -47,7 +47,7 @@ class BrandController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBrandRequest $request)
+    public function store(StoreBrandRequest $request): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validated();
         $logoPath = $this->uploadImage($request, 'logo', 'uploads/brands');
@@ -79,32 +79,32 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBrandRequest $request, Brand $brand)
+    public function update(UpdateBrandRequest $request, Brand $brand): ?\Illuminate\Http\RedirectResponse
     {
-        dd(request()->all());
-//        try {
-//            $validated = $request->validated();
-//            if (!isset($validated['name'])) {
-//                return back()->withErrors(['msg' => 'Поле name не передано в запросе']);
-//            }
-//            $validated['slug'] = Str::slug($validated['name']);
-//            // Если пришёл новый файл — загружаем
-//            if ($request->hasFile('logo')) {
-//                $validated['logo'] = $this->updateImage(
-//                    $request,
-//                    'logo',
-//                    'uploads/brands',
-//                    $brand->logo
-//                );
-//            } else {
-//                unset($validated['logo']); // чтобы не затирать null или старый путь
-//            }
-//
-//            $brand->update($validated);
-//            return back()->with(['success' => 'Обновлено!']);
-//        } catch (\Exception $exception) {
-//            return back()->withErrors(['msg' => $exception->getMessage()]);
-//        }
+//        dd($request->all());
+        try {
+            $validated = $request->validated();
+            if (!isset($validated['name'])) {
+                return back()->withErrors(['msg' => 'Поле name не передано в запросе']);
+            }
+            $validated['slug'] = Str::slug($validated['name']);
+            // Если пришёл новый файл — загружаем
+            if ($request->hasFile('logo')) {
+                $validated['logo'] = $this->updateImage(
+                    $request,
+                    'logo',
+                    'uploads/brands',
+                    $brand->logo
+                );
+            } else {
+                unset($validated['logo']); // чтобы не затирать null или старый путь
+            }
+
+            $brand->update($validated);
+            return back()->with(['success' => 'Обновлено!']);
+        } catch (\Exception $exception) {
+            return back()->withErrors(['msg' => $exception->getMessage()]);
+        }
     }
 
 

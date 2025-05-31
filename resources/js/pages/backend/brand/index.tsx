@@ -32,7 +32,6 @@ const Index = ({ brands, filters }: Props) => {
         e.preventDefault();
         router.get(route('admin.brand.index'), { search }, { preserveScroll: true, preserveState: true });
     };
-
     const propsPage = usePage().props
     console.log(propsPage);
     return (
