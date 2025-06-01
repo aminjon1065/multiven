@@ -32,7 +32,7 @@ return new class extends Migration {
             $table->double('offer_price')->nullable();
             $table->date('offer_start_date')->nullable();
             $table->date('offer_end_date')->nullable();
-            $table->string('product_type')->nullable();
+            $table->enum('product_type', ['new_arrival', 'featured_product', 'top_product', 'best_product'])->nullable();
             $table->boolean('status');
             $table->integer('is_approved')->default(0);
             $table->string('seo_title')->nullable();

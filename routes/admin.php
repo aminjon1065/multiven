@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,5 +24,7 @@ Route::patch('childe-category-status/{childCategory}', [ChildCategoryController:
 //Brand
 Route::resource('brand', BrandController::class)->names('brand');
 
+//product
+Route::resource('products', ProductController::class)->names('product');
 require __DIR__ . '/settings.php';
 

@@ -36,7 +36,7 @@ const CreateChildCategory = ({
         post(route('admin.child-category.store'), {
             preserveScroll: true,
             onSuccess: () => {
-                reset()
+                reset();
                 toast.success('Успешно создано!');
                 onOpenChange(false);
             },
@@ -56,10 +56,6 @@ const CreateChildCategory = ({
                 </DialogHeader>
                 <div className="space-y-3">
                     <div>
-                        <Label htmlFor={'name'}>Название</Label>
-                        <Input required id={'name'} value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
-                    </div>
-                    <div>
                         <Label>Категория</Label>
                         <SelectCategory categories={categories} selectedId={data.category_id} onChange={(val) => setData('category_id', val)} />
                     </div>
@@ -70,6 +66,17 @@ const CreateChildCategory = ({
                             categories={filteredSubCategories}
                             selectedId={data.sub_category_id}
                             onChange={(val) => setData('sub_category_id', val)}
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor={'name'}>Название</Label>
+                        <Input
+                            required
+                            disabled={!data.sub_category_id}
+                            id={'name'}
+                            value={data.name}
+                            onChange={(e) => setData('name', e.target.value)}
+                            placeholder="Название"
                         />
                     </div>
                 </div>
