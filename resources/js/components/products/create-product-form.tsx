@@ -4,8 +4,11 @@ import { SelectTypeProduct } from '@/components/select-type-product';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { MinimalTiptapEditor } from '@/components/ui/minimal-tiptap';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { TypeProduct } from '@/types/enums/type-products';
 import { useForm } from '@inertiajs/react';
+import { Content } from '@tiptap/react';
 import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 import { Input } from '../ui/input';
@@ -21,7 +24,7 @@ type createProduct = {
     brand_id?: string;
     qty: string;
     short_description: string | null;
-    long_description?: string | null;
+    long_description?: Content;
     video_link: string | null;
     link_source: string | null;
     sku: string;
@@ -95,7 +98,7 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
             },
         });
     };
-    console.log("Data", data);
+    console.log('Data', data);
     const filteredSubCategories = subCategories.filter((sub) => sub.category_id === Number(data.category_id));
     const filteredChildCategories = childCategories.filter((sub) => sub.sub_category_id === Number(data.sub_category_id));
     return (
@@ -235,6 +238,21 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
                             <Label htmlFor={'cost_price'}>Тип продукта</Label>
                             <SelectTypeProduct onChange={(val) => setData('product_type', val)} />
                         </div>
+                    </div>
+                    <div className={'flex items-center justify-between space-x-2'}>
+                        <ScrollArea className={'h-[300px] w-full'}>
+                            <MinimalTiptapEditor
+                                value={data.long_description}
+                                onChange={(e) => setData('long_description', e)}
+                                className="w-full"
+                                editorContentClassName="p-5"
+                                output="html"
+                                placeholder="Enter your description..."
+                                autofocus={true}
+                                editable={true}
+                                editorClassName="focus:outline-hidden"
+                            />
+                        </ScrollArea>
                     </div>
                 </div>
                 <DialogFooter>
