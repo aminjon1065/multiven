@@ -13,7 +13,11 @@ export default defineConfig({
             refresh: true,
         }),
         react(),
-        compression({ algorithm: 'gzip' }),
+        compression({
+            algorithm: 'brotliCompress', // или 'gzip'
+            ext: '.br', // расширение выходных файлов
+            deleteOriginFile: false, // оригинальные .js/.css сохраняются
+        }),
         tailwindcss(),
     ],
     esbuild: {
