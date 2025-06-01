@@ -1,4 +1,6 @@
+import { DatePicker } from '@/components/date-picker';
 import { SelectCategory } from '@/components/select-category';
+import { SelectTypeProduct } from '@/components/select-type-product';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
@@ -17,15 +19,15 @@ type createProduct = {
     sub_category_id?: string;
     child_category_id?: string;
     brand_id?: string;
-    qty: number;
+    qty: string;
     short_description: string | null;
     long_description?: string | null;
     video_link: string | null;
     link_source: string | null;
     sku: string;
-    price: number;
-    cost_price: number | null;
-    offer_price?: number | null;
+    price: string;
+    cost_price: string;
+    offer_price: string;
     offer_start_date?: string | Date | null;
     offer_end_date?: string | Date | null;
     product_type?: TypeProduct | string | null;
@@ -59,15 +61,15 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
         sub_category_id: '',
         child_category_id: '',
         brand_id: '',
-        qty: 0,
+        qty: '',
         short_description: '',
         long_description: '',
         video_link: '',
         link_source: '',
         sku: '',
-        price: 0,
-        cost_price: 0,
-        offer_price: 0,
+        price: '',
+        cost_price: '',
+        offer_price: '',
         offer_start_date: '',
         offer_end_date: '',
         product_type: '',
@@ -93,6 +95,7 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
             },
         });
     };
+    console.log("Data", data);
     const filteredSubCategories = subCategories.filter((sub) => sub.category_id === Number(data.category_id));
     const filteredChildCategories = childCategories.filter((sub) => sub.sub_category_id === Number(data.sub_category_id));
     return (
@@ -129,6 +132,7 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
                         <div className={'w-full'}>
                             <Label htmlFor={'SubCategory'}>Подкатегория</Label>
                             <SelectCategory
+                                disabled={!data.category_id}
                                 categories={filteredSubCategories}
                                 selectedId={data.sub_category_id}
                                 onChange={(val) => setData('sub_category_id', val)}
@@ -137,6 +141,7 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
                         <div className={'w-full'}>
                             <Label htmlFor={'SubCategory'}>Дочерняя категория</Label>
                             <SelectCategory
+                                disabled={!data.sub_category_id}
                                 categories={filteredChildCategories}
                                 selectedId={data.child_category_id}
                                 onChange={(val) => setData('child_category_id', val)}
@@ -155,6 +160,80 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
                         <div className={'w-full'}>
                             <Label htmlFor={'sku'}>Складской номер</Label>
                             <Input id={'sku'} value={data.sku} onChange={(e) => setData('sku', e.target.value)} placeholder="15D/61" />
+                        </div>
+                    </div>
+                    <div className={'flex items-center justify-between space-x-2'}>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'price'}>Цена (в сомони)</Label>
+                            <Input
+                                id={'price'}
+                                type={'number'}
+                                value={data.price}
+                                onChange={(e) => {
+                                    setData('price', e.target.value);
+                                }}
+                                placeholder="10"
+                            />
+                        </div>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'cost_price'}>Себестоимость (в сомони)</Label>
+                            <Input
+                                id={'cost_price'}
+                                type={'number'}
+                                value={data.cost_price}
+                                onChange={(e) => setData('cost_price', e.target.value)}
+                                placeholder="11"
+                            />
+                        </div>
+                    </div>
+                    <div className={'flex items-center justify-between space-x-2'}>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'offer_price'}>Цена скидки (в сомони)</Label>
+                            <Input
+                                id={'offer_price'}
+                                type={'offer_price'}
+                                value={data.price}
+                                onChange={(e) => {
+                                    setData('offer_price', e.target.value);
+                                }}
+                                placeholder="9"
+                            />
+                        </div>
+                        <div className={'flex w-full items-center justify-between space-x-2'}>
+                            <div className={'full flex flex-col space-y-2'}>
+                                <Label htmlFor={'offer_start_date'}>Начало скидки</Label>
+                                <DatePicker
+                                    placeholder={'Выберите начало скидки'}
+                                    value={data.offer_start_date ? new Date(data.offer_start_date) : undefined}
+                                    onChange={(date) => setData('offer_start_date', date ?? '')}
+                                />
+                            </div>
+                            <div className={'full flex flex-col space-y-2'}>
+                                <Label htmlFor={'offer_start_date'}>Конец скидки</Label>
+                                <DatePicker
+                                    placeholder={'Выберите конец скидки'}
+                                    value={data.offer_end_date ? new Date(data.offer_end_date) : undefined}
+                                    onChange={(date) => setData('offer_end_date', date ?? '')}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className={'flex items-center justify-between space-x-2'}>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'qty'}>Количество на складе</Label>
+                            <Input
+                                id={'qty'}
+                                type={'number'}
+                                value={data.qty}
+                                onChange={(e) => {
+                                    setData('qty', e.target.value);
+                                }}
+                                placeholder="10"
+                            />
+                        </div>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'cost_price'}>Тип продукта</Label>
+                            <SelectTypeProduct onChange={(val) => setData('product_type', val)} />
                         </div>
                     </div>
                 </div>
