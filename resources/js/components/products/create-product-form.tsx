@@ -104,165 +104,171 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className={'min-w-4xl'}>
-                <DialogHeader>
-                    <DialogTitle>Добавить Продукт</DialogTitle>
-                    <DialogDescription>Здесь вы можете добавить название, картинка и все данные продукта.</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between space-x-2">
-                        <Input
-                            accept="image/*"
-                            type="file"
-                            onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                    setData('thumb_image', file);
-                                    setFileName(file.name);
-                                }
-                            }}
-                        />
-                        <p className="text-muted-foreground text-sm">{fileName}</p>
-                    </div>
-                    <div>
-                        <Label htmlFor={'name'}>Название</Label>
-                        <Input id={'name'} value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
-                    </div>
-                    <div className={'flex items-center justify-between space-x-2'}>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'Category'}>Категория</Label>
-                            <SelectCategory categories={categories} selectedId={data.category_id} onChange={(val) => setData('category_id', val)} />
-                        </div>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'SubCategory'}>Подкатегория</Label>
-                            <SelectCategory
-                                disabled={!data.category_id}
-                                categories={filteredSubCategories}
-                                selectedId={data.sub_category_id}
-                                onChange={(val) => setData('sub_category_id', val)}
-                            />
-                        </div>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'SubCategory'}>Дочерняя категория</Label>
-                            <SelectCategory
-                                disabled={!data.sub_category_id}
-                                categories={filteredChildCategories}
-                                selectedId={data.child_category_id}
-                                onChange={(val) => setData('child_category_id', val)}
-                            />
-                        </div>
-                    </div>
-                    <div className={'flex items-center justify-between space-x-2'}>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'Category'}>Бренд</Label>
-                            <SelectCategory categories={brands} selectedId={data.brand_id} onChange={(val) => setData('brand_id', val)} />
-                        </div>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'code'}>Код товара</Label>
-                            <Input id={'code'} value={data.code} onChange={(e) => setData('code', e.target.value)} placeholder="1561" />
-                        </div>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'sku'}>Складской номер</Label>
-                            <Input id={'sku'} value={data.sku} onChange={(e) => setData('sku', e.target.value)} placeholder="15D/61" />
-                        </div>
-                    </div>
-                    <div className={'flex items-center justify-between space-x-2'}>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'price'}>Цена (в сомони)</Label>
+                <ScrollArea >
+                    <DialogHeader>
+                        <DialogTitle>Добавить Продукт</DialogTitle>
+                        <DialogDescription>Здесь вы можете добавить название, картинка и все данные продукта.</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-3">
+                        <div className="flex items-center justify-between space-x-2">
                             <Input
-                                id={'price'}
-                                type={'number'}
-                                value={data.price}
+                                accept="image/*"
+                                type="file"
                                 onChange={(e) => {
-                                    setData('price', e.target.value);
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        setData('thumb_image', file);
+                                        setFileName(file.name);
+                                    }
                                 }}
-                                placeholder="10"
                             />
+                            <p className="text-muted-foreground text-sm">{fileName}</p>
                         </div>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'cost_price'}>Себестоимость (в сомони)</Label>
-                            <Input
-                                id={'cost_price'}
-                                type={'number'}
-                                value={data.cost_price}
-                                onChange={(e) => setData('cost_price', e.target.value)}
-                                placeholder="11"
-                            />
+                        <div>
+                            <Label htmlFor={'name'}>Название</Label>
+                            <Input id={'name'} value={data.name} onChange={(e) => setData('name', e.target.value)} placeholder="Название" />
                         </div>
-                    </div>
-                    <div className={'flex items-center justify-between space-x-2'}>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'offer_price'}>Цена скидки (в сомони)</Label>
-                            <Input
-                                id={'offer_price'}
-                                type={'offer_price'}
-                                value={data.price}
-                                onChange={(e) => {
-                                    setData('offer_price', e.target.value);
-                                }}
-                                placeholder="9"
-                            />
-                        </div>
-                        <div className={'flex w-full items-center justify-between space-x-2'}>
-                            <div className={'full flex flex-col space-y-2'}>
-                                <Label htmlFor={'offer_start_date'}>Начало скидки</Label>
-                                <DatePicker
-                                    placeholder={'Выберите начало скидки'}
-                                    value={data.offer_start_date ? new Date(data.offer_start_date) : undefined}
-                                    onChange={(date) => setData('offer_start_date', date ?? '')}
+                        <div className={'flex items-center justify-between space-x-2'}>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'Category'}>Категория</Label>
+                                <SelectCategory
+                                    categories={categories}
+                                    selectedId={data.category_id}
+                                    onChange={(val) => setData('category_id', val)}
                                 />
                             </div>
-                            <div className={'full flex flex-col space-y-2'}>
-                                <Label htmlFor={'offer_start_date'}>Конец скидки</Label>
-                                <DatePicker
-                                    placeholder={'Выберите конец скидки'}
-                                    value={data.offer_end_date ? new Date(data.offer_end_date) : undefined}
-                                    onChange={(date) => setData('offer_end_date', date ?? '')}
+                            <div className={'w-full'}>
+                                <Label htmlFor={'SubCategory'}>Подкатегория</Label>
+                                <SelectCategory
+                                    disabled={!data.category_id}
+                                    categories={filteredSubCategories}
+                                    selectedId={data.sub_category_id}
+                                    onChange={(val) => setData('sub_category_id', val)}
+                                />
+                            </div>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'SubCategory'}>Дочерняя категория</Label>
+                                <SelectCategory
+                                    disabled={!data.sub_category_id}
+                                    categories={filteredChildCategories}
+                                    selectedId={data.child_category_id}
+                                    onChange={(val) => setData('child_category_id', val)}
                                 />
                             </div>
                         </div>
-                    </div>
-                    <div className={'flex items-center justify-between space-x-2'}>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'qty'}>Количество на складе</Label>
-                            <Input
-                                id={'qty'}
-                                type={'number'}
-                                value={data.qty}
-                                onChange={(e) => {
-                                    setData('qty', e.target.value);
-                                }}
-                                placeholder="10"
-                            />
+                        <div className={'flex items-center justify-between space-x-2'}>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'Category'}>Бренд</Label>
+                                <SelectCategory categories={brands} selectedId={data.brand_id} onChange={(val) => setData('brand_id', val)} />
+                            </div>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'code'}>Код товара</Label>
+                                <Input id={'code'} value={data.code} onChange={(e) => setData('code', e.target.value)} placeholder="1561" />
+                            </div>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'sku'}>Складской номер</Label>
+                                <Input id={'sku'} value={data.sku} onChange={(e) => setData('sku', e.target.value)} placeholder="15D/61" />
+                            </div>
                         </div>
-                        <div className={'w-full'}>
-                            <Label htmlFor={'cost_price'}>Тип продукта</Label>
-                            <SelectTypeProduct onChange={(val) => setData('product_type', val)} />
+                        <div className={'flex items-center justify-between space-x-2'}>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'price'}>Цена (в сомони)</Label>
+                                <Input
+                                    id={'price'}
+                                    type={'number'}
+                                    value={data.price}
+                                    onChange={(e) => {
+                                        setData('price', e.target.value);
+                                    }}
+                                    placeholder="10"
+                                />
+                            </div>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'cost_price'}>Себестоимость (в сомони)</Label>
+                                <Input
+                                    id={'cost_price'}
+                                    type={'number'}
+                                    value={data.cost_price}
+                                    onChange={(e) => setData('cost_price', e.target.value)}
+                                    placeholder="11"
+                                />
+                            </div>
+                        </div>
+                        <div className={'flex items-center justify-between space-x-2'}>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'offer_price'}>Цена скидки (в сомони)</Label>
+                                <Input
+                                    id={'offer_price'}
+                                    type={'offer_price'}
+                                    value={data.price}
+                                    onChange={(e) => {
+                                        setData('offer_price', e.target.value);
+                                    }}
+                                    placeholder="9"
+                                />
+                            </div>
+                            <div className={'flex w-full items-center justify-between space-x-2'}>
+                                <div className={'full flex flex-col space-y-2'}>
+                                    <Label htmlFor={'offer_start_date'}>Начало скидки</Label>
+                                    <DatePicker
+                                        placeholder={'Выберите начало скидки'}
+                                        value={data.offer_start_date ? new Date(data.offer_start_date) : undefined}
+                                        onChange={(date) => setData('offer_start_date', date ?? '')}
+                                    />
+                                </div>
+                                <div className={'full flex flex-col space-y-2'}>
+                                    <Label htmlFor={'offer_start_date'}>Конец скидки</Label>
+                                    <DatePicker
+                                        placeholder={'Выберите конец скидки'}
+                                        value={data.offer_end_date ? new Date(data.offer_end_date) : undefined}
+                                        onChange={(date) => setData('offer_end_date', date ?? '')}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className={'flex items-center justify-between space-x-2'}>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'qty'}>Количество на складе</Label>
+                                <Input
+                                    id={'qty'}
+                                    type={'number'}
+                                    value={data.qty}
+                                    onChange={(e) => {
+                                        setData('qty', e.target.value);
+                                    }}
+                                    placeholder="10"
+                                />
+                            </div>
+                            <div className={'w-full'}>
+                                <Label htmlFor={'cost_price'}>Тип продукта</Label>
+                                <SelectTypeProduct onChange={(val) => setData('product_type', val)} />
+                            </div>
+                        </div>
+                        <div className={'flex items-center justify-between space-x-2'}>
+                            <ScrollArea className={'h-[300px] w-full'}>
+                                <MinimalTiptapEditor
+                                    value={data.long_description}
+                                    onChange={(e) => setData('long_description', e)}
+                                    className="w-full"
+                                    editorContentClassName="p-5"
+                                    output="html"
+                                    placeholder="Enter your description..."
+                                    autofocus={true}
+                                    editable={true}
+                                    editorClassName="focus:outline-hidden"
+                                />
+                            </ScrollArea>
                         </div>
                     </div>
-                    <div className={'flex items-center justify-between space-x-2'}>
-                        <ScrollArea className={'h-[300px] w-full'}>
-                            <MinimalTiptapEditor
-                                value={data.long_description}
-                                onChange={(e) => setData('long_description', e)}
-                                className="w-full"
-                                editorContentClassName="p-5"
-                                output="html"
-                                placeholder="Enter your description..."
-                                autofocus={true}
-                                editable={true}
-                                editorClassName="focus:outline-hidden"
-                            />
-                        </ScrollArea>
-                    </div>
-                </div>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button variant="secondary">Отмена</Button>
-                    </DialogClose>
-                    <Button disabled={processing} onClick={onSubmit}>
-                        Сохранить
-                    </Button>
-                </DialogFooter>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button variant="secondary">Отмена</Button>
+                        </DialogClose>
+                        <Button disabled={processing} onClick={onSubmit}>
+                            Сохранить
+                        </Button>
+                    </DialogFooter>
+                </ScrollArea>
             </DialogContent>
         </Dialog>
     );
