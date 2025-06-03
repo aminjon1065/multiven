@@ -52,9 +52,18 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): \Inertia\Response
     {
-        //
+        $categories = Category::get(['id', 'name']);
+        $subCategory = SubCategory::get(['id', 'name', 'category_id']);
+        $childCategory = ChildCategory::get(['id', 'name', 'category_id', 'sub_category_id']);
+        $brand = Brand::get(['id', 'name']);
+        return Inertia::render('backend/product/create', [
+            'categories' => $categories,
+            'subCategories' => $subCategory,
+            'childCategories' => $childCategory,
+            'brands' => $brand,
+        ]);
     }
 
     /**

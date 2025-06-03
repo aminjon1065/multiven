@@ -1,17 +1,29 @@
-import { DatePicker } from '@/components/date-picker';
-import { SelectCategory } from '@/components/select-category';
-import { SelectTypeProduct } from '@/components/select-type-product';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import AppAdminLayout from '@/layouts/app-admin-layout';
+import type { BreadcrumbItem } from '@/types';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { MinimalTiptapEditor } from '@/components/ui/minimal-tiptap';
+import { SelectCategory } from '@/components/select-category';
+import { DatePicker } from '@/components/date-picker';
+import { SelectTypeProduct } from '@/components/select-type-product';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { TypeProduct } from '@/types/enums/type-products';
-import { useForm } from '@inertiajs/react';
+import { MinimalTiptapEditor } from '@/components/ui/minimal-tiptap';
 import { Content } from '@tiptap/react';
+import { TypeProduct } from '@/types/enums/type-products';
 import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
-import { Input } from '../ui/input';
+import { Button } from '@/components/ui/button';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Дашборд',
+        href: '/admin/dashboard',
+    },
+    {
+        title: 'Добавить товар',
+        href: '/admin/child-category',
+    },
+];
 
 type createProduct = {
     code: string;
@@ -55,8 +67,9 @@ type PropsCreateProduct = {
     brands: { id: number; name: string }[];
 };
 
-const CreateProductForm = ({ open, onOpenChange, categories, subCategories, childCategories, brands }: PropsCreateProduct) => {
-    const { data, setData, post, processing, reset } = useForm<Required<createProduct>>({
+
+const Create = ({ categories, subCategories, childCategories, brands }: PropsCreateProduct) => {
+    const { data, setData, post, processing,reset } = useForm<Required<createProduct>>({
         code: '',
         name: '',
         thumb_image: '',
@@ -90,11 +103,9 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
             onSuccess: () => {
                 reset();
                 toast.success('Успешно создано!');
-                onOpenChange(false);
             },
             onError: () => {
                 toast.error('Ошибка при создании');
-                onOpenChange(false);
             },
         });
     };
@@ -102,13 +113,20 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
     const filteredSubCategories = subCategories.filter((sub) => sub.category_id === Number(data.category_id));
     const filteredChildCategories = childCategories.filter((sub) => sub.sub_category_id === Number(data.sub_category_id));
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className={'min-w-4xl'}>
-                <ScrollArea>
-                    <DialogHeader>
-                        <DialogTitle>Добавить Продукт</DialogTitle>
-                        <DialogDescription>Здесь вы можете добавить название, картинка и все данные продукта.</DialogDescription>
-                    </DialogHeader>
+        <AppAdminLayout breadcrumbs={breadcrumbs}>
+            <Head title={'Добавить товар'} />
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <div className="px-4 sm:px-6 lg:px-8">
+                    <div className="sm:flex sm:items-center md:justify-between">
+                        <div>
+                            <h2>
+                                Добавить продукт
+                            </h2>
+                            <p>
+                                Здесь вы можете добавить название, картинка и все данные продукта.
+                            </p>
+                        </div>
+                    </div>
                     <div className="space-y-3">
                         <div className="flex items-center justify-between space-x-2">
                             <Input
@@ -260,17 +278,18 @@ const CreateProductForm = ({ open, onOpenChange, categories, subCategories, chil
                             </ScrollArea>
                         </div>
                     </div>
-                    <DialogFooter>
-                        <DialogClose asChild>
+                    <div className="flex justify-end space-x-2">
+                        <Link href={route('admin.product.index')}>
                             <Button variant="secondary">Отмена</Button>
-                        </DialogClose>
+                        </Link>
                         <Button disabled={processing} onClick={onSubmit}>
                             Сохранить
                         </Button>
-                    </DialogFooter>
-                </ScrollArea>
-            </DialogContent>
-        </Dialog>
+                    </div>
+                </div>
+            </div>
+        </AppAdminLayout>
     );
 };
-export default CreateProductForm;
+
+export default Create;

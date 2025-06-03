@@ -22,7 +22,7 @@ interface InsertElement extends FormatAction {
 const formatActions: InsertElement[] = [
   {
     value: "codeBlock",
-    label: "Code block",
+    label: "Блок кода",
     icon: <CodeIcon className="size-5" />,
     action: (editor) => editor.chain().focus().toggleCodeBlock().run(),
     isActive: (editor) => editor.isActive("codeBlock"),
@@ -32,7 +32,7 @@ const formatActions: InsertElement[] = [
   },
   {
     value: "blockquote",
-    label: "Blockquote",
+    label: "Блок цитаты",
     icon: <QuoteIcon className="size-5" />,
     action: (editor) => editor.chain().focus().toggleBlockquote().run(),
     isActive: (editor) => editor.isActive("blockquote"),
@@ -42,7 +42,7 @@ const formatActions: InsertElement[] = [
   },
   {
     value: "horizontalRule",
-    label: "Divider",
+    label: "Разделитель",
     icon: <DividerHorizontalIcon className="size-5" />,
     action: (editor) => editor.chain().focus().setHorizontalRule().run(),
     isActive: () => false,
@@ -80,7 +80,7 @@ export const SectionFive: React.FC<SectionFiveProps> = ({
             <CaretDownIcon className="size-5" />
           </>
         }
-        dropdownTooltip="Insert elements"
+        dropdownTooltip="Вставить элементы"
         size={size}
         variant={variant}
       />

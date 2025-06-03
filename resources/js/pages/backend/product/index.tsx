@@ -6,7 +6,7 @@ import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { Product } from '@/types/products';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -81,15 +81,14 @@ const Index = ({ categories, subCategories, childCategories, filters, products, 
                             </div>
                         </form>
                         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                            <Button
-                                onClick={() => {
-                                    setOpen(true);
-                                }}
-                                variant={'outline'}
-                            >
-                                <PlusIcon />
-                                Добавить продукт
-                            </Button>
+                            <Link href={route('admin.product.create')}>
+                                <Button
+                                    variant={'outline'}
+                                >
+                                    <PlusIcon />
+                                    Добавить продукт
+                                </Button>
+                            </Link>
                             {open && (
                                 <CreateProductForm
                                     open={open}
