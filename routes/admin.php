@@ -28,3 +28,4 @@ Route::resource('brand', BrandController::class)->names('brand');
 Route::resource('products', ProductController::class)->names('product');
 require __DIR__ . '/settings.php';
 
+

@@ -1,18 +1,18 @@
-import AppAdminLayout from '@/layouts/app-admin-layout';
-import type { BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { DatePicker } from '@/components/date-picker';
+import { SelectCategory } from '@/components/select-category';
+import { SelectTypeProduct } from '@/components/select-type-product';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { SelectCategory } from '@/components/select-category';
-import { DatePicker } from '@/components/date-picker';
-import { SelectTypeProduct } from '@/components/select-type-product';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { MinimalTiptapEditor } from '@/components/ui/minimal-tiptap';
-import { Content } from '@tiptap/react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import AppAdminLayout from '@/layouts/app-admin-layout';
+import type { BreadcrumbItem } from '@/types';
 import { TypeProduct } from '@/types/enums/type-products';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Content } from '@tiptap/react';
 import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -67,9 +67,8 @@ type PropsCreateProduct = {
     brands: { id: number; name: string }[];
 };
 
-
 const Create = ({ categories, subCategories, childCategories, brands }: PropsCreateProduct) => {
-    const { data, setData, post, processing,reset } = useForm<Required<createProduct>>({
+    const { data, setData, post, processing, reset } = useForm<Required<createProduct>>({
         code: '',
         name: '',
         thumb_image: '',
@@ -109,7 +108,6 @@ const Create = ({ categories, subCategories, childCategories, brands }: PropsCre
             },
         });
     };
-    console.log('Data', data);
     const filteredSubCategories = subCategories.filter((sub) => sub.category_id === Number(data.category_id));
     const filteredChildCategories = childCategories.filter((sub) => sub.sub_category_id === Number(data.sub_category_id));
     return (
@@ -119,12 +117,8 @@ const Create = ({ categories, subCategories, childCategories, brands }: PropsCre
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="sm:flex sm:items-center md:justify-between">
                         <div>
-                            <h2>
-                                Добавить продукт
-                            </h2>
-                            <p>
-                                Здесь вы можете добавить название, картинка и все данные продукта.
-                            </p>
+                            <h2>Добавить продукт</h2>
+                            <p>Здесь вы можете добавить название, картинка и все данные продукта.</p>
                         </div>
                     </div>
                     <div className="space-y-3">

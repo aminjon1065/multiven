@@ -27,7 +27,9 @@ export function SelectTypeProduct({ onChange }: { onChange: (val: string) => voi
             <SelectContent>
                 <SelectGroup>
                     {typeProduct.map((item) => (
-                        <SelectItem value={item.value}>{item.name}</SelectItem>
+                        <SelectItem key={item.value} value={item.value}>
+                            {item.name}
+                        </SelectItem>
                     ))}
                 </SelectGroup>
             </SelectContent>
