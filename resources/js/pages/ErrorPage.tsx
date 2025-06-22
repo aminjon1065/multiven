@@ -38,15 +38,16 @@ export default function ErrorPage({ status = 500, message }: { status: number; m
     return (
         <>
             <Head title={content.title} />
-            <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+            <main className="grid min-h-full place-items-center  px-6 py-24 sm:py-32 lg:px-8">
                 <div className="text-center">
                     <p className="text-base font-semibold text-indigo-600">{status}</p>
-                    <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">{content.title}</h1>
+                    <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 dark:text-gray-600 animate-pulse sm:text-7xl">{content.title}</h1>
                     <p className="mt-6 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">{message && content.message}</p>
-
                     {status === 403 ? (
                         <div>
-                            Вы админ? <TextLink href={route('login')}>Войти</TextLink>
+                            <p className={"text-gray-900 dark:text-white"}>
+                                Вы админ? <TextLink href={route('login')}>Войти</TextLink>
+                            </p>
                         </div>
                     ) : (
                         <div className="mt-10 flex items-center justify-center gap-x-6">

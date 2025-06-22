@@ -100,14 +100,14 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                                         <Trash2Icon />
                                     </Button>
                                     <Popover>
-                                        <PopoverTrigger>
+                                        <PopoverTrigger asChild>
                                             <Button variant="ghost" size="sm">
                                                 <CogIcon />
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent side={'left'} className={'flex w-auto flex-col justify-start p-0'}>
                                             <TextLink href={route('admin.products-image-gallery.index', { product: item.id })}>
-                                                <Button variant="ghost" size="sm">
+                                                <Button variant="ghost" size="sm" className={"w-full"}>
                                                     <ImagesIcon />
                                                     Галерея
                                                 </Button>
