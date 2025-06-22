@@ -54,7 +54,7 @@ const CreateBrandForm = ({ open, onOpenChange }: { open: boolean; onOpenChange: 
                                 }
                             }}
                         />
-                        <p className="text-sm text-muted-foreground">{fileName}</p>
+                        <p className="text-muted-foreground text-sm">{fileName}</p>
                     </div>
                 </div>
                 <DialogFooter>

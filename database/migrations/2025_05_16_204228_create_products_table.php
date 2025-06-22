@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug');
             $table->text('thumb_image');
-            $table->foreignId('vendor_id');
+            $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete();
             $table->foreignId('category_id');
             $table->foreignId('sub_category_id')->nullable();
             $table->foreignId('child_category_id')->nullable();

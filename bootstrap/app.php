@@ -50,19 +50,20 @@ return Application::configure(basePath: dirname(__DIR__))
                 503 => 'Service unavailable.',
             ];
 
-            if (! array_key_exists($status, $messages)) {
+            if (!array_key_exists($status, $messages)) {
                 return $response;
             }
-
-            if (! $request->isMethod('GET')) {
+            if (!$request->isMethod('GET')) {
                 return back()
                     ->setStatusCode($status)
                     ->with('error', $messages[$status]);
             }
-
             return Inertia::render('ErrorPage', [
                 'status' => $status,
                 'message' => $messages[$status],
+                'auth' => [
+                    'user' => $request->user(),
+                ],
             ])
                 ->toResponse($request)
                 ->setStatusCode($status);

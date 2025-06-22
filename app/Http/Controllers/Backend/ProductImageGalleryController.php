@@ -5,16 +5,22 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductImageGallery\StoreProductImageGalleryRequest;
 use App\Http\Requests\Product\ProductImageGallery\UpdateProductImageGalleryRequest;
+use App\Models\Product;
 use App\Models\ProductImageGallery;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class ProductImageGalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): \Inertia\Response
     {
-        //
+        $product = Product::findOrFail($request->product);
+        return Inertia::render('backend/product/product-gallery/index', [
+            'product' => $product,
+        ]);
     }
 
     /**

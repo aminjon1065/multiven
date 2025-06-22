@@ -4,11 +4,12 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('dashboard', function () {
+Route::get('dashboard', static function () {
     return Inertia::render('backend/dashboard');
 })->name('dashboard');
 
@@ -26,6 +27,9 @@ Route::resource('brand', BrandController::class)->names('brand');
 
 //product
 Route::resource('products', ProductController::class)->names('product');
+Route::patch('product-status/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
+Route::resource('products-image-gallery', ProductImageGalleryController::class)->names('products-image-gallery');
+
 require __DIR__ . '/settings.php';
 
 

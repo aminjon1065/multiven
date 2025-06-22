@@ -1,6 +1,6 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-export function SelectTypeProduct({ onChange }: { onChange: (val: string) => void }) {
+export function SelectTypeProduct({ onChange, selectedVal }: { onChange: (val: string) => void, selectedVal?: string }) {
     const typeProduct = [
         {
             name: 'Новая',
@@ -20,12 +20,12 @@ export function SelectTypeProduct({ onChange }: { onChange: (val: string) => voi
         },
     ];
     return (
-        <Select onValueChange={onChange}>
+        <Select onValueChange={onChange} defaultValue={selectedVal}>
             <SelectTrigger className="w-full">
                 <SelectValue placeholder="Выбрать тип продукта" />
             </SelectTrigger>
             <SelectContent>
-                <SelectGroup>
+                <SelectGroup >
                     {typeProduct.map((item) => (
                         <SelectItem key={item.value} value={item.value}>
                             {item.name}

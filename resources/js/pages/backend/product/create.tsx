@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MinimalTiptapEditor } from '@/components/ui/minimal-tiptap';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
 import AppAdminLayout from '@/layouts/app-admin-layout';
 import type { BreadcrumbItem } from '@/types';
 import { TypeProduct } from '@/types/enums/type-products';
@@ -20,8 +21,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/dashboard',
     },
     {
+        title: 'Тоовары',
+        href: '/admin/products',
+    },
+    {
         title: 'Добавить товар',
-        href: '/admin/child-category',
+        href: '/admin/products/create',
     },
 ];
 
@@ -29,16 +34,15 @@ type createProduct = {
     code: string;
     name: string;
     thumb_image: File | string;
-    // vendor_id: string | number | null;
     category_id?: string;
     sub_category_id?: string;
     child_category_id?: string;
     brand_id?: string;
     qty: string;
-    short_description: string | null;
+    short_description: string;
     long_description?: Content;
     video_link: string | null;
-    link_source: string | null;
+    link_source?: string;
     sku: string;
     price: string;
     cost_price: string;
@@ -48,9 +52,9 @@ type createProduct = {
     product_type?: TypeProduct | string | null;
     status: boolean;
     is_approved: boolean;
-    seo_title?: string | null;
+    seo_title?: string;
     seo_description?: string | null;
-    link_first?: string | null;
+    link_first?: string;
 };
 
 type PropsCreateProduct = {
@@ -97,13 +101,22 @@ const Create = ({ categories, subCategories, childCategories, brands }: PropsCre
     const [fileName, setFileName] = useState('');
     const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
+        const startDate = data.offer_start_date ? new Date(data.offer_start_date) : null;
+        const endDate = data.offer_end_date ? new Date(data.offer_end_date) : null;
+
+        if (startDate && endDate && startDate > endDate) {
+            toast.error('Дата начала скидки не может быть позже даты окончания');
+            return;
+        }
+
         post(route('admin.product.store'), {
             forceFormData: true,
             onSuccess: () => {
                 reset();
                 toast.success('Успешно создано!');
             },
-            onError: () => {
+            onError: (error) => {
+                console.log(error);
                 toast.error('Ошибка при создании');
             },
         });
@@ -212,7 +225,7 @@ const Create = ({ categories, subCategories, childCategories, brands }: PropsCre
                                 <Input
                                     id={'offer_price'}
                                     type={'offer_price'}
-                                    value={data.price}
+                                    value={data.offer_price}
                                     onChange={(e) => {
                                         setData('offer_price', e.target.value);
                                     }}
@@ -220,21 +233,38 @@ const Create = ({ categories, subCategories, childCategories, brands }: PropsCre
                                 />
                             </div>
                             <div className={'flex w-full items-center justify-between space-x-2'}>
-                                <div className={'full flex flex-col space-y-2'}>
+                                <div className={'flex w-full flex-col space-y-2'}>
                                     <Label htmlFor={'offer_start_date'}>Начало скидки</Label>
                                     <DatePicker
                                         placeholder={'Выберите начало скидки'}
                                         value={data.offer_start_date ? new Date(data.offer_start_date) : undefined}
-                                        onChange={(date) => setData('offer_start_date', date ?? '')}
+                                        onChange={(date) => {
+                                            if (date) {
+                                                // 1) переводим Date → ISO-полночь "YYYY-MM-DD"
+                                                const isoDay = date.toISOString().slice(0, 10);
+                                                setData('offer_start_date', isoDay);
+                                            } else {
+                                                setData('offer_start_date', '');
+                                            }
+                                        }}
                                     />
                                 </div>
-                                <div className={'full flex flex-col space-y-2'}>
+                                <div className={'flex w-full flex-col space-y-2'}>
                                     <Label htmlFor={'offer_start_date'}>Конец скидки</Label>
-                                    <DatePicker
-                                        placeholder={'Выберите конец скидки'}
-                                        value={data.offer_end_date ? new Date(data.offer_end_date) : undefined}
-                                        onChange={(date) => setData('offer_end_date', date ?? '')}
-                                    />
+                                    {data.offer_start_date && (
+                                        <DatePicker
+                                            startDate={new Date(data.offer_start_date)}
+                                            placeholder={'Выберите конец скидки'}
+                                            value={data.offer_end_date ? new Date(data.offer_end_date) : undefined}
+                                            onChange={(date) => {
+                                                if (date) {
+                                                    setData('offer_end_date', date.toISOString().slice(0, 10));
+                                                } else {
+                                                    setData('offer_end_date', '');
+                                                }
+                                            }}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -256,23 +286,78 @@ const Create = ({ categories, subCategories, childCategories, brands }: PropsCre
                                 <SelectTypeProduct onChange={(val) => setData('product_type', val)} />
                             </div>
                         </div>
-                        <div className={'flex items-center justify-between space-x-2'}>
-                            <ScrollArea className={'h-[300px] w-full'}>
-                                <MinimalTiptapEditor
-                                    value={data.long_description}
-                                    onChange={(e) => setData('long_description', e)}
-                                    className="w-full"
-                                    editorContentClassName="p-5"
-                                    output="html"
-                                    placeholder="Enter your description..."
-                                    autofocus={true}
-                                    editable={true}
-                                    editorClassName="focus:outline-hidden"
+                        <div className={'w-full'}>
+                            <Label htmlFor={'short_description'}>Короткое описание</Label>
+                            <Input
+                                value={data.short_description}
+                                id={'short_description'}
+                                onChange={(e) => {
+                                    setData('short_description', e.target.value);
+                                }}
+                            />
+                        </div>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'long_description'}>Полное описание</Label>
+                            <div className={'flex items-center justify-between space-x-2'}>
+                                <ScrollArea className={'h-[300px] w-full'}>
+                                    <MinimalTiptapEditor
+                                        value={data.long_description}
+                                        onChange={(e) => setData('long_description', e)}
+                                        className="w-full"
+                                        editorContentClassName="p-5"
+                                        output="html"
+                                        placeholder="Enter your description..."
+                                        autofocus={true}
+                                        editable={true}
+                                        editorClassName="focus:outline-hidden"
+                                    />
+                                </ScrollArea>
+                            </div>
+                        </div>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'seo_title'}>SEO Заголовок</Label>
+                            <Input
+                                value={data.seo_title}
+                                id={'seo_title'}
+                                onChange={(e) => {
+                                    setData('seo_title', e.target.value);
+                                }}
+                            />
+                        </div>
+                        <div className={'w-full'}>
+                            <Label htmlFor={'seo_description'}>SEO описание</Label>
+                            <Textarea
+                                id={'seo_description'}
+                                onChange={(e) => {
+                                    setData('seo_description', e.target.value);
+                                }}
+                            />
+                        </div>
+
+                        <div className="flex w-full">
+                            <div className="w-full">
+                                <Label htmlFor={'link_source'}>Ссылка приобретения</Label>
+                                <Input
+                                    type={'url'}
+                                    id={'link_source'}
+                                    value={data.link_source}
+                                    onChange={(e) => setData('link_source', e.target.value)}
                                 />
-                            </ScrollArea>
+                            </div>
+                        </div>
+                        <div className="flex w-full">
+                            <div className="w-full">
+                                <Label htmlFor={'link_first'}>Ещё доп. ссылка</Label>
+                                <Input
+                                    type={'url'}
+                                    id={'link_first'}
+                                    value={data.link_first}
+                                    onChange={(e) => setData('link_first', e.target.value)}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="flex justify-end space-x-2">
+                    <div className="mt-5 flex justify-end space-x-2">
                         <Link href={route('admin.product.index')}>
                             <Button variant="secondary">Отмена</Button>
                         </Link>
