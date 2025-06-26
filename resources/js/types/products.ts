@@ -1,4 +1,3 @@
-import { TypeProduct } from '@/types/enums/type-products';
 import { Brand } from './brand';
 
 export type Product = {
@@ -37,12 +36,19 @@ export type Product = {
     childCategory?: { id: number; name: string };
     brand?: Brand;
     vendor?: { id: number; name: string };
-    productImageGalleries?: { id: number; image: string }[];
+    product_image_galleries?: { id: number; image: string }[];
     variants?: {
         id: number;
         name: string;
-        price: number;
-        stock: number;
+        product_id: number;
+        status: boolean;
+        variant_items?: {
+            product_variant_id: number;
+            name: string;
+            price: number;
+            is_default: boolean;
+            status: boolean;
+        }[];
     }[];
     reviews?: {
         id: number;

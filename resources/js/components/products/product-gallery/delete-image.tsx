@@ -8,24 +8,23 @@ import {
     DialogClose,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Category } from '@/types/category'
 import { router } from '@inertiajs/react'
 import { toast } from 'sonner'
 import { Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
 
 type Props = {
-    category: Category
+    productImageGallery: number
 }
 
-export function CategoryDeleteDialog({ category }: Props) {
+export function DeleteImage({ productImageGallery }: Props) {
     const [open, setOpen] = useState(false)
 
     const handleDelete = () => {
-        router.delete(route('admin.category.destroy', category.id), {
+        router.delete(route('admin.products-image-gallery.destroy', productImageGallery), {
             preserveScroll: true,
             onSuccess: () => {
-                toast.success('Категория успешно удалена.')
+                toast.success('Картина успешно удалена.')
                 setOpen(false)
             },
             onError: () => {
@@ -42,14 +41,14 @@ export function CategoryDeleteDialog({ category }: Props) {
                 className="hover:text-red-500"
                 onClick={() => setOpen(true)}
             >
-                <Trash2Icon />
+                <Trash2Icon className="mr-1" />
                 Удалить
             </Button>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Удалить категорию?</DialogTitle>
+                    <DialogTitle>Удалить картину?</DialogTitle>
                     <DialogDescription>
-                        Все подкатегории и связанные товары также будут удалены. Это действие необратимо.
+                        Это действие необратимо.
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="sm:justify-end">

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { PopoverTrigger } from '@/components/ui/popover';
 import { Switch } from '@/components/ui/switch';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { Product } from '@/types/products';
 import { Link, router } from '@inertiajs/react';
@@ -75,7 +76,7 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                             <TableRow key={item.id}>
                                 <TableCell className={'min-w-15'}>{item.id}</TableCell>
                                 <TableCell>
-                                    <img src={`/${item.thumb_image}`} className="h-12 w-12 object-cover" />
+                                    <img src={`/${item.thumb_image}`} alt={item.name} className="h-12 w-12 object-cover" />
                                 </TableCell>
                                 <TableCell className={'max-w-200 min-w-200'}>
                                     <span className={'text-balance'}>{item.name}</span>{' '}
@@ -85,37 +86,54 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                                 <TableCell>{item.code}</TableCell>
                                 <TableCell>
                                     <Switch
+                                        aria-label={"toggle-status"}
                                         className={'data-[state=checked]:bg-green-400'}
                                         checked={item.status}
                                         onCheckedChange={(val) => changeStatus(item.id, val)}
                                     />
                                 </TableCell>
                                 <TableCell className={'flex items-center justify-center'}>
-                                    <Link href={route('admin.product.edit', item.id)}>
-                                        <Button variant="ghost" size="sm" className={'text-blue-400'}>
-                                            <PencilIcon />
-                                        </Button>
-                                    </Link>
-                                    <Button variant="ghost" size="sm" className={'text-red-500'}>
-                                        <Trash2Icon />
-                                    </Button>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Link href={route('admin.product.edit', item.id)}>
+                                                <Button variant="ghost" aria-label={"Редактировать"} size="sm" className={'text-blue-400'}>
+                                                    <PencilIcon />
+                                                </Button>
+                                            </Link>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p aria-label={"Редактировать"}>Редактировать</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button variant="ghost" size="sm" aria-label={"удалить"} className={'text-red-500'}>
+                                                <Trash2Icon />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Удалить</p>
+                                        </TooltipContent>
+                                    </Tooltip>
                                     <Popover>
                                         <PopoverTrigger asChild>
-                                            <Button variant="ghost" size="sm">
+                                            <Button aria-label={"больше меню"} variant="ghost" size="sm">
                                                 <CogIcon />
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent side={'left'} className={'flex w-auto flex-col justify-start p-0'}>
                                             <TextLink href={route('admin.products-image-gallery.index', { product: item.id })}>
-                                                <Button variant="ghost" size="sm" className={"w-full"}>
+                                                <Button variant="ghost" size="sm" className={'w-full'}>
                                                     <ImagesIcon />
                                                     Галерея
                                                 </Button>
                                             </TextLink>
-                                            <Button variant="ghost" size="sm">
-                                                <AsteriskIcon />
-                                                Варианты
-                                            </Button>
+                                            <TextLink href={route('admin.product-variant.index', { product: item.id })}>
+                                                <Button variant="ghost" size="sm">
+                                                    <AsteriskIcon />
+                                                    Варианты
+                                                </Button>
+                                            </TextLink>
                                             <Button variant="ghost" size="sm">
                                                 <LinkIcon />
                                                 Источник

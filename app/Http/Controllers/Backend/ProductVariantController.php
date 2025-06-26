@@ -5,16 +5,22 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductVariant\StoreProductVariantRequest;
 use App\Http\Requests\Product\ProductVariant\UpdateProductVariantRequest;
+use App\Models\Product;
 use App\Models\ProductVariant;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductVariantController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $product = Product::findOrFail($request->product);
+        return Inertia::render('backend/product/product-variant/index', [
+            'product' => $product->load(['variants']),
+        ]);
     }
 
     /**
@@ -28,9 +34,14 @@ class ProductVariantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductVariantRequest $request)
+    public function store(StoreProductVariantRequest $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $data = $request->validated();
+        $productVariant = ProductVariant::create($data);
+        if ($productVariant) {
+            return back()->with(['success' => 'Product Variant Created Successfully']);
+        }
+        return back()->with(['error' => 'Product Variant Created Failed']);
     }
 
     /**
@@ -49,6 +60,13 @@ class ProductVariantController extends Controller
         //
     }
 
+    public function changeStatus(ProductVariant $productVariant, Request $request)
+    {
+        $productVariant->status =  $request->boolean('status');
+        $productVariant->save();
+        return redirect()->back();
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -60,8 +78,9 @@ class ProductVariantController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductVariant $productVariant)
+    public function destroy(ProductVariant $productVariant): \Illuminate\Http\RedirectResponse
     {
-        //
+        $productVariant->delete();
+        return redirect()->back();
     }
 }

@@ -40,7 +40,6 @@ class CategoryController extends Controller
     {
         $category->status = $request->boolean('status');
         $category->save();
-
         return redirect()->back();
     }
 

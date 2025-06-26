@@ -5,6 +5,8 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
+use App\Http\Controllers\Backend\ProductVariantController;
+use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,7 +31,13 @@ Route::resource('brand', BrandController::class)->names('brand');
 Route::resource('products', ProductController::class)->names('product');
 Route::patch('product-status/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
 Route::resource('products-image-gallery', ProductImageGalleryController::class)->names('products-image-gallery');
-
+Route::resource('product-variant', ProductVariantController::class)->names('product-variant');
+Route::patch('product-variant-status/{productVariant}', [ProductVariantController::class, 'changeStatus'])->name('product-variant.changeStatus');
+//ProductVariantItems
+Route::get('products-variant-item/{variant}/items', [ProductVariantItemController::class, 'index'])->name('product-variant-item.index');
+Route::patch('products-variant-item-status/{variantItem}', [ProductVariantItemController::class, 'changeStatus'])->name('product-variant-item.changeStatus');
+Route::patch('products-variant-item-default/{variantItem}', [ProductVariantItemController::class, 'changeIsDefault'])->name('product-variant-item.change-is-default');
+Route::post('product-variant-item/{variant}', [ProductVariantItemController::class, 'store'])->name('product-variant-item.store');
 require __DIR__ . '/settings.php';
 
 

@@ -7,11 +7,14 @@ use App\Http\Requests\Product\ProductImageGallery\StoreProductImageGalleryReques
 use App\Http\Requests\Product\ProductImageGallery\UpdateProductImageGalleryRequest;
 use App\Models\Product;
 use App\Models\ProductImageGallery;
+use App\Traits\ImageUploadTrait;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class ProductImageGalleryController extends Controller
 {
+    use ImageUploadTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -19,7 +22,7 @@ class ProductImageGalleryController extends Controller
     {
         $product = Product::findOrFail($request->product);
         return Inertia::render('backend/product/product-gallery/index', [
-            'product' => $product,
+            'product' => $product->load('productImageGalleries'),
         ]);
     }
 
@@ -34,9 +37,16 @@ class ProductImageGalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductImageGalleryRequest $request)
+    public function store(StoreProductImageGalleryRequest $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $imagePaths = $this->uploadMultiImage($request, 'image', 'uploads');
+        foreach ($imagePaths as $path) {
+            $productImageGallery = new ProductImageGallery();
+            $productImageGallery->image = $path;
+            $productImageGallery->product_id = $request->product;
+            $productImageGallery->save();
+        }
+        return redirect()->back()->with('success', 'Product Image Gallery Added Successfully');
     }
 
     /**
@@ -66,8 +76,10 @@ class ProductImageGalleryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductImageGallery $productImageGallery)
+    public function destroy(ProductImageGallery $products_image_gallery): \Illuminate\Http\RedirectResponse
     {
-        //
+        $this->deleteImage($products_image_gallery->image);
+        $products_image_gallery->delete();
+        return redirect()->back()->with('success', 'Product Image Gallery Deleted Successfully');
     }
 }

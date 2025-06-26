@@ -7,8 +7,11 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Brand } from '@/types/brand';
 import { PaginatedResponse } from '@/types/paginateResponse';
 import { router } from '@inertiajs/react';
+import { Tooltip } from '@radix-ui/react-tooltip';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { PencilIcon } from 'lucide-react';
 
 type Props = {
     brands: PaginatedResponse<Brand>;
@@ -68,16 +71,24 @@ export default function BrandDatatable({ brands }: Props) {
                                 />
                             </TableCell>
                             <TableCell className="text-right">
-                                <Button
-                                    className={'hover:text-sky-500'}
-                                    variant={'ghost'}
-                                    onClick={() => {
-                                        setSelectedCategory(item);
-                                        setOpen(true);
-                                    }}
-                                >
-                                    Редактировать
-                                </Button>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            className={'hover:text-sky-500'}
+                                            variant={'ghost'}
+                                            onClick={() => {
+                                                setSelectedCategory(item);
+                                                setOpen(true);
+                                            }}
+                                        >
+                                            <PencilIcon />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Редактировать</p>
+                                    </TooltipContent>
+                                </Tooltip>
+
                                 <DeleteBrand brand={item} />
                             </TableCell>
                         </TableRow>
