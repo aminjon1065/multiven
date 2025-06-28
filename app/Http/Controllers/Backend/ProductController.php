@@ -140,6 +140,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
+
         $data = $request->validated();
         $newImagePath = $this->updateImage(
             $request,

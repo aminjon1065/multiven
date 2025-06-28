@@ -86,7 +86,7 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                                 <TableCell>{item.code}</TableCell>
                                 <TableCell>
                                     <Switch
-                                        aria-label={"toggle-status"}
+                                        aria-label={'toggle-status'}
                                         className={'data-[state=checked]:bg-green-400'}
                                         checked={item.status}
                                         onCheckedChange={(val) => changeStatus(item.id, val)}
@@ -96,18 +96,18 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Link href={route('admin.product.edit', item.id)}>
-                                                <Button variant="ghost" aria-label={"Редактировать"} size="sm" className={'text-blue-400'}>
+                                                <Button variant="ghost" aria-label={'Редактировать'} size="sm" className={'text-blue-400'}>
                                                     <PencilIcon />
                                                 </Button>
                                             </Link>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p aria-label={"Редактировать"}>Редактировать</p>
+                                            <p aria-label={'Редактировать'}>Редактировать</p>
                                         </TooltipContent>
                                     </Tooltip>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <Button variant="ghost" size="sm" aria-label={"удалить"} className={'text-red-500'}>
+                                            <Button variant="ghost" size="sm" aria-label={'удалить'} className={'text-red-500'}>
                                                 <Trash2Icon />
                                             </Button>
                                         </TooltipTrigger>
@@ -117,7 +117,7 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                                     </Tooltip>
                                     <Popover>
                                         <PopoverTrigger asChild>
-                                            <Button aria-label={"больше меню"} variant="ghost" size="sm">
+                                            <Button aria-label={'больше меню'} variant="ghost" size="sm">
                                                 <CogIcon />
                                             </Button>
                                         </PopoverTrigger>
@@ -134,10 +134,14 @@ export default function ProductsDatatable({ products, onSort, sortField, sortDir
                                                     Варианты
                                                 </Button>
                                             </TextLink>
-                                            <Button variant="ghost" size="sm">
-                                                <LinkIcon />
-                                                Источник
-                                            </Button>
+                                            {item.link_source && (
+                                                <a href={`${item.link_source}`} target={'_blank'}>
+                                                    <Button variant="ghost" size="sm">
+                                                        <LinkIcon />
+                                                        Источник
+                                                    </Button>
+                                                </a>
+                                            )}
                                         </PopoverContent>
                                     </Popover>
                                 </TableCell>

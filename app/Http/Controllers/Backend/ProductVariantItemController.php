@@ -18,7 +18,8 @@ class ProductVariantItemController extends Controller
      */
     public function index(ProductVariant $variant): \Inertia\Response
     {
-        $items = $variant->productVariantItems()->get();
+        $items = $variant->load('productVariantItems');
+//        dd($items->toJson());
         return Inertia::render('backend/product/product-variant/product-variant-item/index', [
             'items' => $items
         ]);

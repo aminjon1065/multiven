@@ -12,22 +12,28 @@ import CreateVariantItem from '@/components/products/product-variant/product-var
 
 type Props = {
     items: {
-        id: number;
-        name: string;
-        price: number;
-        is_default: boolean;
-        status: boolean;
-        product_variant_id:number
-    }[];
+        id:number;
+        name:string;
+        product_id:number;
+        product_variant_items: {
+            id: number;
+            name: string;
+            price: number;
+            is_default: boolean;
+            status: boolean;
+            product_variant_id: number
+        }[]
+    };
 };
 
 const Index = ({ items }: Props) => {
     const [open, setOpen] = useState(false);
-
+    console.log(items);
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Дашборд', href: '/admin/dashboard' },
         { title: 'Товары', href: '/admin/products' },
-        { title: `Варианты`, href: '/admin/products/variants' },
+        { title: `Варианты`, href: `/admin/product-variant?product=${items.product_id}` },
+        { title: `Элементы варианта`, href: '/admin/products/variants' },
     ];
     const changeStatus = (id: number, newStatus: boolean) => {
         router.patch(
@@ -77,7 +83,7 @@ const Index = ({ items }: Props) => {
                         <PlusIcon />
                         Добавить бренд
                     </Button>
-                    {open && <CreateVariantItem open={open} onOpenChange={setOpen} product_variant_id={items[0].product_variant_id} />}
+                    {open &&  <CreateVariantItem open={open} onOpenChange={setOpen} product_variant_id={items.id} />}
                 </div>
                 <Table>
                     <TableHeader>
@@ -91,7 +97,7 @@ const Index = ({ items }: Props) => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {items.map((item) => (
+                        {items.product_variant_items.length > 0 ? items.product_variant_items.map((item) => (
                             <TableRow key={item.id}>
                                 <TableCell>{item.id}</TableCell>
                                 <TableCell className="font-medium">{item.name}</TableCell>
@@ -114,7 +120,7 @@ const Index = ({ items }: Props) => {
                                     Delete
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )) : <span>Nothing</span>}
                     </TableBody>
                 </Table>
             </div>
