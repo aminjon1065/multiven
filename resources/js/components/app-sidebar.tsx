@@ -19,7 +19,6 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-
             <SidebarContent>
                 <NavMain items={mainNavItems} type={'Платформа'} />
                 <NavMain items={eCommerceNavItems} type={'E-коммерция'} />

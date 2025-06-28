@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
+use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,6 +39,12 @@ Route::get('products-variant-item/{variant}/items', [ProductVariantItemControlle
 Route::patch('products-variant-item-status/{variantItem}', [ProductVariantItemController::class, 'changeStatus'])->name('product-variant-item.changeStatus');
 Route::patch('products-variant-item-default/{variantItem}', [ProductVariantItemController::class, 'changeIsDefault'])->name('product-variant-item.change-is-default');
 Route::post('product-variant-item/{variant}', [ProductVariantItemController::class, 'store'])->name('product-variant-item.store');
+
+//Seller-products
+Route::get('seller-products', [SellerProductController::class, 'sellerProductIndex'])->name('seller-products.index');
+Route::get('seller-pending-products', [SellerProductController::class, 'pendingProductIndex'])->name('seller-pending-products.index');
+Route::patch('change-approve-status', [SellerProductController::class, 'changeApproveStatus'])->name('change-approve-status');
+
 require __DIR__ . '/settings.php';
 
 
