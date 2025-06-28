@@ -45,6 +45,8 @@ Route::get('seller-products', [SellerProductController::class, 'sellerProductInd
 Route::get('seller-pending-products', [SellerProductController::class, 'pendingProductIndex'])->name('seller-pending-products.index');
 Route::patch('change-approve-status', [SellerProductController::class, 'changeApproveStatus'])->name('change-approve-status');
 
+//ProductReviews
+Route::resource('reviews', \App\Http\Controllers\Backend\ReviewsController::class)->names('reviews');
 require __DIR__ . '/settings.php';
 
 
