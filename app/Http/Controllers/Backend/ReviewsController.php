@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductReviews\StoreProductReviewsRequest;
 use App\Http\Requests\Product\ProductReviews\UpdateProductReviewsRequest;
 use App\Models\ProductReviews;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ReviewsController extends Controller
@@ -15,7 +17,18 @@ class ReviewsController extends Controller
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('backend/reviews/index', []);
+        $reviews = ProductReviews::with(['product:id,name', 'vendor:id,shop_name', 'user:id,name'])->paginate(15);
+        return Inertia::render('backend/reviews/index', [
+            'reviews' => $reviews,
+        ]);
+    }
+
+
+    public function changeStatus(Request $request, ProductReviews $review): RedirectResponse
+    {
+        $review->status = $request->status;
+        $review->save();
+        return redirect()->back();
     }
 
     /**

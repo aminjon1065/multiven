@@ -1,4 +1,5 @@
 import { Brand } from './brand';
+import { Review } from '@/types/review';
 
 export type Product = {
     id: number;
@@ -50,10 +51,5 @@ export type Product = {
             status: boolean;
         }[];
     }[];
-    reviews?: {
-        id: number;
-        rating: number;
-        comment: string;
-        user: { id: number; name: string };
-    }[];
+    reviews?: Review[];
 };

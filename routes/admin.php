@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Backend\ReviewsController;
 
 Route::get('dashboard', static function () {
     return Inertia::render('backend/dashboard');
@@ -47,7 +48,8 @@ Route::get('seller-pending-products', [SellerProductController::class, 'pendingP
 Route::patch('change-approve-status', [SellerProductController::class, 'changeApproveStatus'])->name('change-approve-status');
 
 //ProductReviews
-Route::resource('reviews', \App\Http\Controllers\Backend\ReviewsController::class)->names('reviews');
+Route::resource('reviews', ReviewsController::class)->names('reviews');
+Route::patch('review-status/{review}', [ReviewsController::class, 'changeStatus'])->name('reviews.changeStatus');
 require __DIR__ . '/settings.php';
 
 

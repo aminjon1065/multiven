@@ -18,10 +18,11 @@ export function NavMain({ items = [], type }: { items: NavItem[]; type: string }
     const { state } = useSidebar();
     const { url } = usePage();
     const isItemActive = (item: NavItem): boolean => {
-        if (url === item.href) return true;
+        if (url.startsWith(item.href)) return true;
         if (item.items?.some((sub) => url.startsWith(sub.href))) return true;
         return false;
     };
+
     return (
         <SidebarGroup>
             <SidebarGroupLabel>{type}</SidebarGroupLabel>
