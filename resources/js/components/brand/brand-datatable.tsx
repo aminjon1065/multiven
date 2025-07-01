@@ -22,7 +22,7 @@ export default function BrandDatatable({ brands }: Props) {
     const [open, setOpen] = useState(false);
     const changeStatus = (id: number, newStatus: boolean) => {
         router.patch(
-            route('admin.category.changeStatus', id),
+            route('admin.brand.changeStatus', id),
             { status: newStatus },
             {
                 preserveScroll: true,
@@ -88,7 +88,6 @@ export default function BrandDatatable({ brands }: Props) {
                                         <p>Редактировать</p>
                                     </TooltipContent>
                                 </Tooltip>
-
                                 <DeleteBrand brand={item} />
                             </TableCell>
                         </TableRow>

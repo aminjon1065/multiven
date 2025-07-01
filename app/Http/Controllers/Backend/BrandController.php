@@ -44,6 +44,13 @@ class BrandController extends Controller
         //
     }
 
+    public function changeStatus(Request $request, Brand $brand): \Illuminate\Http\RedirectResponse
+    {
+        $brand->status = $request->status;
+        $brand->save();
+        return redirect()->back();
+    }
+
     /**
      * Store a newly created resource in storage.
      */

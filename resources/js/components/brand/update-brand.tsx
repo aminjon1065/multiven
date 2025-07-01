@@ -109,10 +109,9 @@ const UpdateBrand = ({
                                 checked={isFeatured}
                                 onChange={(e) => setIsFeatured(e.target.checked)}
                             />{' '}
-                            В избранном
+                            Показать
                         </label>
                     </div>
-
                     <DialogFooter>
                         <DialogClose asChild>
                             <Button variant="secondary" type="button">

@@ -27,6 +27,7 @@ Route::resource('child-category', ChildCategoryController::class)->names('child-
 Route::patch('childe-category-status/{childCategory}', [ChildCategoryController::class, 'changeStatus'])->name('child-category.changeStatus');
 //Brand
 Route::resource('brand', BrandController::class)->names('brand');
+Route::patch('brand-status/{brand}', [BrandController::class, 'changeStatus'])->name('brand.changeStatus');
 
 //product
 Route::resource('products', ProductController::class)->names('product');
