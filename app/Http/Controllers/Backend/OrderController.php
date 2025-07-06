@@ -6,16 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
 use App\Http\Requests\Order\UpdateOrderRequest;
 use App\Models\Order;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Inertia\Response
     {
-        //
+        return Inertia::render('backend/order/index', [
+
+        ]);
     }
+
+    public function pendingProducts(): \Inertia\Response
+    {
+        return Inertia::render('backend/order/pending', []);
+    }
+
+    public function processedOrders(): \Inertia\Response
+    {
+        return Inertia::render('backend/order/processed', []);
+    }
+
+    public function droppedOffOrders(): \Inertia\Response
+    {
+        return Inertia::render('backend/order/processed', []);
+    }
+
 
     /**
      * Show the form for creating a new resource.

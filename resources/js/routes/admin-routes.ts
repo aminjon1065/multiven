@@ -50,10 +50,10 @@ export const eCommerceNavItems: NavItem[] = [
     },
     {
         title: 'Заказы',
-        href: '/admin/order',
+        href: '/admin/orders',
         icon: BaggageClaimIcon,
         items: [
-            { title: 'Все заказы', href: '/admin/order' },
+            { title: 'Все заказы', href: '/admin/orders' },
             { title: 'Ожидающие заказы', href: '/admin/pending-orders' },
             { title: 'Обработанные заказы', href: '/admin/processed-orders' },
             { title: 'Выгруженные товары', href: '/admin/dropped-off-orders' },

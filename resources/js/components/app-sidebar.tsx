@@ -24,7 +24,6 @@ export function AppSidebar() {
                 <NavMain items={eCommerceNavItems} type={'E-коммерция'} />
                 <NavMain items={settingsNavItems} type={'Настройки и др.'} />
             </SidebarContent>
-
             <SidebarFooter>
                 {/*<NavFooter items={footerNavItems} className="mt-auto" />*/}
                 <NavUser />

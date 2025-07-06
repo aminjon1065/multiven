@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
@@ -52,4 +53,7 @@ Route::resource('reviews', ReviewsController::class)->names('reviews');
 Route::patch('review-status/{review}', [ReviewsController::class, 'changeStatus'])->name('reviews.changeStatus');
 require __DIR__ . '/settings.php';
 
-
+//Orders
+Route::resource('orders', OrderController::class)->names('orders');
+Route::get('pending-orders', [OrderController::class, 'pendingProducts'])->name('pending-orders.index');
+Route::get('processed-orders', [OrderController::class, 'processedOrders'])->name('pending-orders.index');
