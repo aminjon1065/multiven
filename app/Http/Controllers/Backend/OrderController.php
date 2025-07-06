@@ -32,7 +32,27 @@ class OrderController extends Controller
 
     public function droppedOffOrders(): \Inertia\Response
     {
-        return Inertia::render('backend/order/processed', []);
+        return Inertia::render('backend/order/dropped-off-orders', []);
+    }
+
+    public function shippedOrders()
+    {
+        return Inertia::render('backend/order/shipped-orders', []);
+    }
+
+    public function outForDeliveryOrders()
+    {
+        return Inertia::render('backend/order/out-for-delivery-orders', []);
+    }
+
+    public function deliveredOrders()
+    {
+        return Inertia::render('backend/order/delivered-orders', []);
+    }
+
+    public function canceledOrders()
+    {
+        return Inertia::render('backend/order/canceled-orders', []);
     }
 
 

@@ -12,9 +12,10 @@ import {
     MegaphoneIcon,
     Package2Icon,
     RssIcon,
-    SettingsIcon, ShoppingBagIcon,
+    SettingsIcon,
+    ShoppingBagIcon,
     UsersIcon,
-    WalletIcon
+    WalletIcon,
 } from 'lucide-react';
 
 export const mainNavItems: NavItem[] = [
@@ -65,12 +66,12 @@ export const eCommerceNavItems: NavItem[] = [
     },
     {
         title: 'Транзакции',
-        href: '/admin/transaction',
+        href: '/admin/transactions',
         icon: BanknoteIcon,
     },
     {
         title: 'Э-коммерция',
-        href: '/admin/transaction',
+        href: '/admin/flash-sale',
         icon: ShoppingBagIcon,
         items: [
             { title: 'Распродажа', href: '/admin/flash-sale' },

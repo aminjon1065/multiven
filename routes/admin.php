@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
 use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Backend\ReviewsController;
@@ -55,5 +56,13 @@ require __DIR__ . '/settings.php';
 
 //Orders
 Route::resource('orders', OrderController::class)->names('orders');
-Route::get('pending-orders', [OrderController::class, 'pendingProducts'])->name('pending-orders.index');
-Route::get('processed-orders', [OrderController::class, 'processedOrders'])->name('pending-orders.index');
+Route::get('pending-orders', [OrderController::class, 'pendingProducts'])->name('pending-orders');
+Route::get('processed-orders', [OrderController::class, 'processedOrders'])->name('processed-orders');
+Route::get('dropped-off-orders', [OrderController::class, 'droppedOffOrders'])->name('dropped-off-orders');
+Route::get('shipped-orders', [OrderController::class, 'shippedOrders'])->name('shipped-orders');
+Route::get('out-for-delivery-orders', [OrderController::class, 'outForDeliveryOrders'])->name('out-for-delivery-orders');
+Route::get('delivered-orders', [OrderController::class, 'deliveredOrders'])->name('delivered-orders');
+Route::get('canceled-orders', [OrderController::class, 'canceledOrders'])->name('canceled-orders');
+
+//Transaction
+Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');

@@ -8,17 +8,17 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/dashboard',
     },
     {
-        title: 'Выгруженные товары',
-        href: '/admin/pending-orders',
+        title: 'Заказы в пути',
+        href: '/admin/out-for-delivery-orders',
     },
 ];
-const DroppedOffOrders = () => {
+const ShippedOrders = () => {
     return (
         <AppAdminLayout breadcrumbs={breadcrumbs}>
-            <Head title={'Выгруженные товары'} />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">Все Выгруженные товары</div>
+            <Head title={'Заказы в пути'} />
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">Заказы в пути</div>
         </AppAdminLayout>
     );
 };
 
-export default DroppedOffOrders;
+export default ShippedOrders;
