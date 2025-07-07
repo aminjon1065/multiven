@@ -12,10 +12,11 @@ return new class extends Migration {
     {
         Schema::create('flash_sale_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
-            $table->integer('flash_sale_id');
-            $table->boolean('show_at_home');
-            $table->boolean('status');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('flash_sale_id')->constrained()->onDelete('cascade');
+            $table->decimal('discount_price')->nullable();
+            $table->boolean('show_at_home')->default(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
