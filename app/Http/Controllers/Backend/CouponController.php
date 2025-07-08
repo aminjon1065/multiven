@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\FlashSale;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class FlashSaleController extends Controller
+class CouponController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index()
     {
-        return Inertia::render('backend/e-com/flash-sale/flash-sale', []);
+        return Inertia::render('backend/e-com/coupon/index', []);
     }
 
     /**
@@ -36,7 +36,7 @@ class FlashSaleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FlashSale $flashSale)
+    public function show(Coupon $coupon)
     {
         //
     }
@@ -44,7 +44,7 @@ class FlashSaleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FlashSale $flashSale)
+    public function edit(Coupon $coupon)
     {
         //
     }
@@ -52,7 +52,7 @@ class FlashSaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FlashSale $flashSale)
+    public function update(Request $request, Coupon $coupon)
     {
         //
     }
@@ -60,7 +60,7 @@ class FlashSaleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FlashSale $flashSale)
+    public function destroy(Coupon $coupon)
     {
         //
     }

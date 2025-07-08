@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTransactionRequest;
-use App\Http\Requests\UpdateTransactionRequest;
-use App\Models\Transaction;
-use Inertia\Inertia;
+use App\Models\Blog;
+use Illuminate\Http\Request;
 
-class TransactionController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('backend/transaction/index', []);
+        //
     }
 
     /**
@@ -28,7 +26,7 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransactionRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -36,7 +34,7 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Transaction $transaction)
+    public function show(Blog $blog)
     {
         //
     }
@@ -44,7 +42,7 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transaction $transaction)
+    public function edit(Blog $blog)
     {
         //
     }
@@ -52,7 +50,7 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransactionRequest $request, Transaction $transaction)
+    public function update(Request $request, Blog $blog)
     {
         //
     }
@@ -60,7 +58,7 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Blog $blog)
     {
         //
     }

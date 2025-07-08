@@ -75,7 +75,7 @@ export const eCommerceNavItems: NavItem[] = [
         icon: ShoppingBagIcon,
         items: [
             { title: 'Распродажа', href: '/admin/flash-sale' },
-            { title: 'Купоны', href: '/coupons' },
+            { title: 'Купоны', href: '/admin/coupons' },
             { title: 'Правило доставки', href: '/admin/shipping-rule' },
             { title: 'Профиль продавца', href: '/admin/vendor-profile' },
             { title: 'Настройки платежа', href: '/admin/payment-settings' },

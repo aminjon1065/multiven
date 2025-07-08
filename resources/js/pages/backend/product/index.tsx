@@ -22,7 +22,6 @@ type ProductProps = {
 
 export default function Index({ filters, products }: ProductProps) {
     const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props
-
     const [search, setSearch] = useState(filters.search ?? '');
     const [sortField, setSortField] = useState(filters.sortField ?? 'id');
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(filters.sortDirection ?? 'desc');

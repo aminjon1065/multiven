@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\FlashSale;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreTransactionRequest;
+use App\Http\Requests\UpdateTransactionRequest;
+use App\Models\Transaction;
 use Inertia\Inertia;
 
-class FlashSaleController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index()
     {
-        return Inertia::render('backend/e-com/flash-sale/flash-sale', []);
+        return Inertia::render('backend/transaction/index', []);
     }
 
     /**
@@ -28,7 +29,7 @@ class FlashSaleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTransactionRequest $request)
     {
         //
     }
@@ -36,7 +37,7 @@ class FlashSaleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FlashSale $flashSale)
+    public function show(Transaction $transaction)
     {
         //
     }
@@ -44,7 +45,7 @@ class FlashSaleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FlashSale $flashSale)
+    public function edit(Transaction $transaction)
     {
         //
     }
@@ -52,7 +53,7 @@ class FlashSaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FlashSale $flashSale)
+    public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
         //
     }
@@ -60,7 +61,7 @@ class FlashSaleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FlashSale $flashSale)
+    public function destroy(Transaction $transaction)
     {
         //
     }

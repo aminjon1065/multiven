@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\FlashSale;
+use App\Models\ShippingRule;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class FlashSaleController extends Controller
+class ShippingRuleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('backend/e-com/flash-sale/flash-sale', []);
+        return Inertia::render('backend/e-com/shipping-rule/index',[]);
     }
 
     /**
@@ -36,7 +36,7 @@ class FlashSaleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FlashSale $flashSale)
+    public function show(ShippingRule $shippingRule)
     {
         //
     }
@@ -44,7 +44,7 @@ class FlashSaleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FlashSale $flashSale)
+    public function edit(ShippingRule $shippingRule)
     {
         //
     }
@@ -52,7 +52,7 @@ class FlashSaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FlashSale $flashSale)
+    public function update(Request $request, ShippingRule $shippingRule)
     {
         //
     }
@@ -60,7 +60,7 @@ class FlashSaleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FlashSale $flashSale)
+    public function destroy(ShippingRule $shippingRule)
     {
         //
     }

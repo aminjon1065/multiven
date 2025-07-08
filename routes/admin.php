@@ -3,17 +3,22 @@
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildCategoryController;
+use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\FlashSaleController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\PaymentSettingsController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ProductImageGalleryController;
 use App\Http\Controllers\Backend\ProductVariantController;
 use App\Http\Controllers\Backend\ProductVariantItemController;
+use App\Http\Controllers\Backend\ReviewsController;
 use App\Http\Controllers\Backend\SellerProductController;
 use App\Http\Controllers\Backend\SubCategoryController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Backend\TransactionController;
+use App\Http\Controllers\Backend\ShippingRuleController;
+use App\Http\Controllers\Backend\VendorProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\Backend\ReviewsController;
 
 Route::get('dashboard', static function () {
     return Inertia::render('backend/dashboard');
@@ -66,3 +71,11 @@ Route::get('canceled-orders', [OrderController::class, 'canceledOrders'])->name(
 
 //Transaction
 Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
+
+//E-com
+Route::resource('flash-sale', FlashSaleController::class)->names('flash-sales');
+Route::resource('coupons', CouponController::class)->names('coupons');
+Route::resource('shipping-rule', ShippingRuleController::class)->names('shipping-rule');
+Route::resource('vendor-profile', VendorProfileController::class)->names('vendor-profile');
+Route::resource('payment-settings', PaymentSettingsController::class)->names('payment-settings');
+
