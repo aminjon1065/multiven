@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('flash_sales', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable(); // напр. "Новогодняя распродажа"
-            $table->text('description')->nullable();
-            $table->dateTime('start_date')->nullable();
+//            $table->string('title')->nullable(); // напр. "Новогодняя распродажа"
+//            $table->text('description')->nullable();
+//            $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date');
-            $table->boolean('status')->default(true);
+//            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

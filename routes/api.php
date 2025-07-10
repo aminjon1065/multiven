@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\API\HomePageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,6 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/', function () {
-    return ['method' => 'API'];
-});
+Route::get('/', [HomePageController::class, 'homePage']);
